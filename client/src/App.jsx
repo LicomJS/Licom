@@ -30,6 +30,20 @@ const App = () => {
                       <div>Hello, {auth.login}!</div>
                     </h1>
 
+                    <button
+                      className="dark:text-white"
+                      style={{ float: "right" }}
+                      onClick={() => {
+                        if (window.confirm("Do you really want to logout?")) {
+                          localStorage.removeItem("licom");
+                          setAuth("");
+                          setPage("");
+                        }
+                      }}
+                    >
+                      Logout
+                    </button>
+
                     {url && <Comments url={url} auth={auth} />}
                   </>
                 ) : (

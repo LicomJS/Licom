@@ -3,6 +3,7 @@ import { generateKey, signMessage } from "ed25519-keys";
 import axios from "axios";
 import LoadingBtn from "./LoadingBtn";
 import { ClientJS } from "clientjs";
+import ErrorDiv from "./ErrorDiv";
 
 // eslint-disable-next-line react/prop-types
 const RegisterMenu = ({ setAuth }) => {
@@ -117,14 +118,7 @@ const RegisterMenu = ({ setAuth }) => {
             )}
           </button>
 
-          {error && (
-            <div
-              style={{ margin: 10 }}
-              className="inline-flex items-center bg-white leading-none rounded-full p-2 shadow text-teal text-sm"
-            >
-              <span className="inline-flex px-2 text-pink-600">{error}</span>
-            </div>
-          )}
+          {error && <ErrorDiv error={error} />}
         </>
       )}
 
@@ -190,7 +184,7 @@ const RegisterMenu = ({ setAuth }) => {
             </button>
           </div>
 
-          {error && <div>{error}</div>}
+          {error && <ErrorDiv error={error} />}
         </>
       )}
     </div>

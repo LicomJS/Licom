@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { signMessage, privateToPublic } from "ed25519-keys";
 import axios from "axios";
+import ErrorDiv from "./ErrorDiv";
 
 // eslint-disable-next-line react/prop-types
 const LoginMenu = ({ setAuth }) => {
@@ -75,7 +76,7 @@ const LoginMenu = ({ setAuth }) => {
             Login
           </button>
 
-          {error && <div>{error}</div>}
+          {error && <ErrorDiv error={error} />}
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { signMessage } from "ed25519-keys";
 import moment from "moment";
 import axios from "axios";
+import ErrorDiv from "./ErrorDiv";
 
 // eslint-disable-next-line react/prop-types
 const Comments = ({ url, auth }) => {
@@ -14,6 +15,7 @@ const Comments = ({ url, auth }) => {
   const loaded = useRef(false);
 
   const postComment = () => {
+    if (!msgRef.current.value) return;
     signMessage(msgRef.current.value, auth.privateKey).then((signature) => {
       axios({
         method: "post",
@@ -65,7 +67,7 @@ const Comments = ({ url, auth }) => {
 
   return (
     <div>
-      <div className="inline-flex items-center bg-white leading-none ${props.textColor} rounded-full p-2 shadow text-teal text-sm">
+      <div className="inline-flex items-center bg-white leading-none rounded-full p-2 shadow text-teal text-sm">
         <span className="inline-flex bg-gray-700 text-white rounded-full h-6 px-3 justify-center items-center">
           Page
         </span>
@@ -107,6 +109,7 @@ const Comments = ({ url, auth }) => {
                         <p>
                           {c.userLogin === auth.login && c.deleted !== 1 && (
                             <button
+                              style={{ marginRight: 5, color: "#aaa" }}
                               onClick={() => {
                                 if (
                                   window.confirm(
@@ -169,14 +172,7 @@ const Comments = ({ url, auth }) => {
             Add new comment
           </div>
 
-          {error && (
-            <div className="inline-flex items-center bg-white leading-none ${props.textColor} rounded-full p-2 shadow text-teal text-sm">
-              <span className="inline-flex bg-pink-600 text-white rounded-full h-6 px-3 justify-center items-center">
-                Error
-              </span>
-              <span className="inline-flex px-2 text-pink-600">{error} </span>
-            </div>
-          )}
+          {error && <ErrorDiv error={error} />}
 
           <div className="grid max-w-xl grid-cols-2 gap-4 m-auto">
             <div className="col-span-2">
