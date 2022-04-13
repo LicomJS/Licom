@@ -13,7 +13,6 @@ node_modules
 
 # misc
 .DS_Store
-.env
 .env.local
 .env.development.local
 .env.test.local
@@ -28,5 +27,5 @@ yarn-error.log*
 /client/build
 /client/dist
 /client/src/App2.jsx
-
+/server/.env
 /server/prisma/migrations
