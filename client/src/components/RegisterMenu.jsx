@@ -13,10 +13,8 @@ const RegisterMenu = ({ setAuth }) => {
   const [loading, setLoading] = useState(false);
   const loginRef = useRef();
 
-  // todo
   const client = new ClientJS();
   const fingerprint = client.getFingerprint();
-  // console.log(fingerprint);
 
   const checkApiLogin = (login) => {
     setLoading(true);
@@ -28,7 +26,7 @@ const RegisterMenu = ({ setAuth }) => {
         hash: fingerprint,
       },
     }).then((res) => {
-      if (res.data.status === "ok") {
+      if (res.data.status) {
         setLoading(false);
         setCheckLogin(true);
         setError("");
@@ -37,6 +35,39 @@ const RegisterMenu = ({ setAuth }) => {
         setCheckLogin(false);
         setError(res.data.error);
       }
+    });
+  };
+
+  const registerApi = () => {
+    setLoading(true);
+    signMessage(login, key.privateKey).then((signature) => {
+      axios({
+        method: "post",
+        url: process.env.REACT_APP_API_SERVER + "/api/register",
+        data: {
+          login,
+          signature,
+          publicKey: key.publicKey,
+          hash: fingerprint,
+        },
+      }).then((res) => {
+        if (res.data.authKey) {
+          const l = {
+            login,
+            authKey: res.data.authKey,
+            publicKey: key.publicKey,
+            privateKey: key.privateKey,
+          };
+
+          setLoading(false);
+          localStorage.setItem("licom", JSON.stringify(l));
+          setAuth(l);
+          setError("");
+        } else {
+          setLoading(false);
+          setError("Error. Signature not match. Please try again.");
+        }
+      });
     });
   };
 
@@ -153,38 +184,7 @@ const RegisterMenu = ({ setAuth }) => {
           <div style={{ margin: 10 }}>
             <button
               className="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
-              onClick={() => {
-                setLoading(true);
-                signMessage(login, key.privateKey).then((signature) => {
-                  axios({
-                    method: "post",
-                    url: process.env.REACT_APP_API_SERVER + "/api/auth",
-                    data: {
-                      login,
-                      signature,
-                      publicKey: key.publicKey,
-                      hash: fingerprint,
-                    },
-                  }).then((res) => {
-                    if (res.data.authKey) {
-                      const l = {
-                        login,
-                        authKey: res.data.authKey,
-                        publicKey: key.publicKey,
-                        privateKey: key.privateKey,
-                      };
-
-                      setLoading(false);
-                      localStorage.setItem("licom", JSON.stringify(l));
-                      setAuth(l);
-                      setError("");
-                    } else {
-                      setLoading(false);
-                      setError("Error. Signature not match. Please try again.");
-                    }
-                  });
-                });
-              }}
+              onClick={registerApi}
             >
               {loading ? <LoadingBtn /> : <>Register me</>}
             </button>

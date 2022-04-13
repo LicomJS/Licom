@@ -4,9 +4,11 @@ const corsMiddleware = require("restify-cors-middleware2");
 const {
   getComments,
   postComments,
-  authUser,
+  // authUser,
   checkLogin,
   deleteComment,
+  loginUser,
+  registerUser,
 } = require("./functions");
 
 const cors = corsMiddleware({
@@ -28,8 +30,16 @@ srv.post("/api/checklogin", async (req, res, next) => {
   checkLogin(req, res, next);
 });
 
-srv.post("/api/auth", (req, res, next) => {
-  authUser(req, res, next);
+// srv.post("/api/auth", (req, res, next) => {
+//   authUser(req, res, next);
+// });
+
+srv.post("/api/register", (req, res, next) => {
+  registerUser(req, res, next);
+});
+
+srv.post("/api/login", (req, res, next) => {
+  loginUser(req, res, next);
 });
 
 srv.post("/api/getcomments", async (req, res, next) => {

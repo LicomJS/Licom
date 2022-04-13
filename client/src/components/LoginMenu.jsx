@@ -13,9 +13,9 @@ const LoginMenu = ({ setAuth }) => {
       signMessage(signIt, keyRef.current.value).then((signature) => {
         axios({
           method: "post",
-          url: process.env.REACT_APP_API_SERVER + "/api/auth",
+          url: process.env.REACT_APP_API_SERVER + "/api/login",
           data: {
-            login: signIt,
+            sign: signIt,
             signature,
             publicKey,
           },

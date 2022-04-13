@@ -41,14 +41,26 @@ const deleteComment = async (req, res, next) => {
 
 const checkLogin = async (req, res, next) => {
   let login = req.body.login.trim();
-  // let fp = String(req.body.hash);
+  let fp = String(req.body.hash);
 
-  // if (!fp) {
-  //   return res.send({ error: "Error. Please try again." });
-  // }
+  if (!fp) {
+    return res.send({ error: "Error. Please try again." });
+  }
 
   if (login.length < 2 || login.length > 30) {
     return res.send({ error: "Login can have min 2 and max 30 characters." });
+  }
+
+  const checkFp = await prisma.fingerprint.findFirst({
+    where: {
+      fp,
+    },
+  });
+
+  if (checkFp && checkFp.userLogin !== null) {
+    return res.send({
+      error: "Error. You have already one account: " + checkFp.userLogin,
+    });
   }
 
   const user = await prisma.user.count({
@@ -56,17 +68,17 @@ const checkLogin = async (req, res, next) => {
   });
 
   if (user === 0) {
-    // await prisma.fingerprint.upsert({
-    //   create: { fp, count: 1 },
-    //   update: {
-    //     count: {
-    //       increment: 1,
-    //     },
-    //   },
-    //   where: { fp },
-    // });
+    await prisma.fingerprint.upsert({
+      create: { fp, count: 1 },
+      update: {
+        count: {
+          increment: 1,
+        },
+      },
+      where: { fp },
+    });
 
-    res.send({ login, status: "ok" });
+    res.send({ login, status: true });
   } else {
     res.send({ error: "Login exist, try another one." });
   }
@@ -74,35 +86,17 @@ const checkLogin = async (req, res, next) => {
   return next();
 };
 
-const authUser = async (req, res, next) => {
-  verifyMessage(req.body.login, req.body.signature, req.body.publicKey).then(
+const loginUser = async (req, res, next) => {
+  verifyMessage(req.body.sign, req.body.signature, req.body.publicKey).then(
     async (verify) => {
       if (verify) {
-        const authKey = nanoid(20);
         let upUser;
-        let login = req.body.login.trim();
         let publicKey = req.body.publicKey.trim();
-        // let fp = String(req.body.hash);
 
         try {
-          // fpCheck = await prisma.fingerprint.findFirst({
-          //   where: { fp },
-          // });
-
-          // if (fpCheck && (fpCheck.count === 0 || fpCheck.joined === 0)) {
-          //   return res.send({ error: "Error. Please try again." });
-          // }
-
-          upUser = await prisma.user.upsert({
-            create: { login, publicKey, authKey },
-            update: { authKey },
+          upUser = await prisma.user.findFirst({
             where: { publicKey },
           });
-
-          // await prisma.fingerprint.update({
-          //   where: { fp },
-          //   data: { count: 0, userLogin: login },
-          // });
 
           return res.send({
             authKey: upUser.authKey,
@@ -116,13 +110,114 @@ const authUser = async (req, res, next) => {
         return res.send({ error: "Signature not match, please try again." });
       }
 
-      return next();
+      return next(); // never
     }
   );
-
-  // console.log(req.body.login);
-  // console.log(req.body.publicKey);
 };
+
+const registerUser = async (req, res, next) => {
+  verifyMessage(req.body.login, req.body.signature, req.body.publicKey).then(
+    async (verify) => {
+      if (verify) {
+        const authKey = nanoid(20);
+        let login = req.body.login.trim();
+        let publicKey = req.body.publicKey.trim();
+        let fp = String(req.body.hash);
+
+        try {
+          fpCheck = await prisma.fingerprint.findFirst({
+            where: { fp },
+          });
+
+          if (!fpCheck || fpCheck.count === 0) {
+            return res.send({ error: "Error. Please try again." });
+          }
+
+          let checkUser = await prisma.user.count({
+            where: {
+              publicKey,
+            },
+          });
+
+          if (checkUser !== 0) {
+            return res.send({ error: "User exist." });
+          }
+
+          let upUser = await prisma.user.create({
+            data: { login, publicKey, authKey },
+          });
+
+          await prisma.fingerprint.update({
+            where: { fp },
+            data: { count: 0, userLogin: login },
+          });
+
+          return res.send({
+            authKey: upUser.authKey,
+            login: upUser.login,
+            publicKey: upUser.publicKey,
+          });
+        } catch (error) {
+          return res.send({ error: "Error, please try again." });
+        }
+      } else {
+        return res.send({ error: "Signature not match, please try again." });
+      }
+
+      return next(); // never
+    }
+  );
+};
+
+// const authUser = async (req, res, next) => {
+//   verifyMessage(req.body.login, req.body.signature, req.body.publicKey).then(
+//     async (verify) => {
+//       if (verify) {
+//         const authKey = nanoid(20);
+//         let upUser;
+//         let login = req.body.login.trim();
+//         let publicKey = req.body.publicKey.trim();
+//         // let fp = String(req.body.hash);
+
+//         try {
+//           // fpCheck = await prisma.fingerprint.findFirst({
+//           //   where: { fp },
+//           // });
+
+//           // if (fpCheck && (fpCheck.count === 0 || fpCheck.joined === 0)) {
+//           //   return res.send({ error: "Error. Please try again." });
+//           // }
+
+//           upUser = await prisma.user.upsert({
+//             create: { login, publicKey, authKey },
+//             update: { authKey },
+//             where: { publicKey },
+//           });
+
+//           // await prisma.fingerprint.update({
+//           //   where: { fp },
+//           //   data: { count: 0, userLogin: login },
+//           // });
+
+//           return res.send({
+//             authKey: upUser.authKey,
+//             login: upUser.login,
+//             publicKey: upUser.publicKey,
+//           });
+//         } catch (error) {
+//           return res.send({ error: "Error, please try again." });
+//         }
+//       } else {
+//         return res.send({ error: "Signature not match, please try again." });
+//       }
+
+//       return next();
+//     }
+//   );
+
+//   // console.log(req.body.login);
+//   // console.log(req.body.publicKey);
+// };
 
 const postComments = async (req, res, next) => {
   const commentMsg = req.body.comment.trim();
@@ -241,7 +336,9 @@ const getComments = async (req, res, next) => {
 module.exports = {
   getComments,
   postComments,
-  authUser,
+  // authUser,
   checkLogin,
   deleteComment,
+  loginUser,
+  registerUser,
 };
