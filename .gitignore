@@ -21,3 +21,11 @@ node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+/TODO.md
+
+/client/build
+/client/dist
+/client/src/App2.jsx
+
+/server/prisma/migrations

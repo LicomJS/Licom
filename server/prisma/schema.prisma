@@ -7,7 +7,40 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model User {
+  login     String   @id @unique
+  publicKey String   @unique
+  authKey   String   @unique
+  time      DateTime @default(now())
 
-// model User {
-//   id             Int @id @default(autoincrement())
-// }
+  comments    Comment[]
+  fingerprint Fingerprint[]
+}
+
+model Webpage {
+  url   String @id
+  count Int    @default(0)
+
+  comments Comment[]
+}
+
+model Comment {
+  id      Int      @id @default(autoincrement())
+  comment String
+  time    DateTime @default(now())
+  deleted Int      @default(0)
+
+  User       User?    @relation(fields: [userLogin], references: [login])
+  userLogin  String?
+  Webpage    Webpage? @relation(fields: [webpageUrl], references: [url])
+  webpageUrl String?
+}
+
+model Fingerprint {
+  fp    String   @unique
+  time  DateTime @default(now())
+  count Int      @default(0)
+
+  User      User?   @relation(fields: [userLogin], references: [login])
+  userLogin String?
+}

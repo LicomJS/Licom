@@ -1,10 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
+import Comments from "./components/Comments";
+import LoginMenu from "./components/LoginMenu";
+import RegisterMenu from "./components/RegisterMenu";
 
 const App = () => {
+  const [auth, setAuth] = useState();
+  const [page, setPage] = useState("");
+
+  const query = new URLSearchParams(window.location.search);
+  const url = query.get("url");
+
+  if (!auth) {
+    const l = JSON.parse(localStorage.getItem("licom"));
+    if (l && l.login && l.authKey && l.publicKey && l.privateKey) {
+      setAuth(l);
+    }
+  }
+
   return (
-    <h1 className="text-3xl font-bold underline">
-      <span>Hello world!</span>
-    </h1>
+    <div>
+      <main className="bg-gray-100 dark:bg-gray-800 h-screen overflow-hidden relative">
+        <div className="flex items-start justify-between">
+          <div className="flex flex-col w-full md:space-y-4">
+            <div className="overflow-auto h-screen pb-24 px-4 md:px-6">
+              <div className="w-full">
+                {auth ? (
+                  <>
+                    <h1 className="text-4xl font-semibold text-gray-800 dark:text-white">
+                      <div>Hello, {auth.login}!</div>
+                    </h1>
+
+                    {url && <Comments url={url} auth={auth} />}
+                  </>
+                ) : (
+                  <div>
+                    <div style={{ margin: 20 }} className="flex items-center">
+                      <button
+                        type="button"
+                        className="w-full border-l border-t border-b text-base font-medium rounded-l-md text-black bg-white hover:bg-gray-100 px-4 py-2"
+                        onClick={() => setPage("register")}
+                      >
+                        Register
+                      </button>
+                      <button
+                        type="button"
+                        className="w-full border-t border-b border-r text-base font-medium rounded-r-md text-black bg-white hover:bg-gray-100 px-4 py-2"
+                        onClick={() => setPage("login")}
+                      >
+                        Login
+                      </button>
+                    </div>
+
+                    {page === "login" && <LoginMenu setAuth={setAuth} />}
+                    {page === "register" && <RegisterMenu setAuth={setAuth} />}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
   );
 };
 

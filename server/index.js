@@ -1,21 +1,47 @@
 require("dotenv").config();
 const restify = require("restify");
-const cors = require("cors");
-// const { prisma } = require("./datebase");
+const corsMiddleware = require("restify-cors-middleware2");
+const {
+  getComments,
+  postComments,
+  authUser,
+  checkLogin,
+  deleteComment,
+} = require("./functions");
+
+const cors = corsMiddleware({
+  origins: ["http://localhost:3000", "http://web.myapp.com"],
+});
 
 const srv = restify.createServer({
   name: "Licom",
   version: "1.0.0",
 });
 
-srv.use(cors());
+srv.pre(cors.preflight);
+srv.use(cors.actual);
 srv.use(restify.plugins.acceptParser(srv.acceptable));
 srv.use(restify.plugins.queryParser());
 srv.use(restify.plugins.bodyParser());
 
-srv.get("/echo/:name", function (req, res, next) {
-  res.send(req.params);
-  return next();
+srv.post("/api/checklogin", async (req, res, next) => {
+  checkLogin(req, res, next);
+});
+
+srv.post("/api/auth", (req, res, next) => {
+  authUser(req, res, next);
+});
+
+srv.post("/api/getcomments", async (req, res, next) => {
+  getComments(req, res, next);
+});
+
+srv.post("/api/comment", async (req, res, next) => {
+  postComments(req, res, next);
+});
+
+srv.del("/api/comment", async (req, res, next) => {
+  deleteComment(req, res, next);
 });
 
 srv.listen(5000, function () {

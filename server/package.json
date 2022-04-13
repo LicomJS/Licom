@@ -14,8 +14,10 @@
     "@prisma/client": "^3.12.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
+    "ed25519-keys": "^1.2.0",
     "nanoid": "^3.3.2",
-    "restify": "^8.6.1"
+    "restify": "^8.6.1",
+    "restify-cors-middleware2": "^2.1.2"
   },
   "devDependencies": {
     "eslint": "^8.13.0",

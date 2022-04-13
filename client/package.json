@@ -6,15 +6,20 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.2.1",
-    "ed25519-keys": "^1.0.0",
+    "axios": "^0.26.1",
+    "clientjs": "^0.2.1",
+    "ed25519-keys": "^1.2.0",
+    "fomantic-ui-css": "^2.8.8",
+    "moment": "^2.29.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-scripts": "5.0.0",
+    "semantic-ui-react": "^2.1.2",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "./script/build.sh",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -37,10 +42,10 @@
     ]
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.4",
+    "autoprefixer": "^9.8.8",
     "eslint": "^8.9.0",
     "eslint-plugin-react": "^7.29.4",
-    "postcss": "^8.4.12",
+    "postcss": "^8.4.8",
     "tailwindcss": "^3.0.23"
   }
 }
