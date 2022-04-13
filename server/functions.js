@@ -116,6 +116,12 @@ const loginUser = async (req, res, next) => {
 };
 
 const registerUser = async (req, res, next) => {
+  let login = req.body.login.trim();
+
+  if (login.length < 2 || login.length > 30) {
+    return res.send({ error: "Login can have min 2 and max 30 characters." });
+  }
+
   verifyMessage(req.body.login, req.body.signature, req.body.publicKey).then(
     async (verify) => {
       if (verify) {
