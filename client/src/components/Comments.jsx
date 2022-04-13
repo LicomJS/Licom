@@ -123,9 +123,14 @@ const Comments = ({ url, auth }) => {
                                       authKey: auth.authKey,
                                     },
                                   }).then((res) => {
-                                    if (res.data.meta) {
-                                      // todo
-                                      // setComments(res.data.meta);
+                                    if (res.data.success) {
+                                      setComments(
+                                        comments.map((x) =>
+                                          x.id === res.data.id
+                                            ? { ...x, deleted: 1 }
+                                            : x
+                                        )
+                                      );
                                     } else {
                                       setError(res.data.error);
                                     }
