@@ -11,6 +11,7 @@ const Comments = ({ url, auth }) => {
   const [comments, setComments] = useState([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [commentLength, setCommentLength] = useState(0);
   const msgRef = useRef();
   const loaded = useRef(false);
 
@@ -32,6 +33,7 @@ const Comments = ({ url, auth }) => {
           msgRef.current.value = "";
           setCount((prev) => prev + 1);
           setError("");
+          setCommentLength(0);
         } else {
           setError(res.data.error);
         }
@@ -93,6 +95,8 @@ const Comments = ({ url, auth }) => {
                 key={key}
                 style={{
                   opacity: c.deleted === 1 ? 0.2 : 1,
+                  wordWrap: "break-word",
+                  lineBreak: "anywhere",
                 }}
               >
                 <a className="block hover:bg-gray-50 dark:hover:bg-gray-900">
@@ -185,11 +189,19 @@ const Comments = ({ url, auth }) => {
                   name="comment"
                   rows="5"
                   cols="40"
+                  maxLength={3000}
+                  onChange={(e) => {
+                    setCommentLength(e.target.value.length);
+                  }}
                 ></textarea>
+                <small className="dark:text-white">
+                  <em>Characters {3000 - commentLength} remaining</em>
+                </small>
               </label>
             </div>
             <div className="col-span-2 text-right">
               <button
+                disabled={commentLength > 3000 ? true : false}
                 type="submit"
                 className="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
                 onClick={postComment}

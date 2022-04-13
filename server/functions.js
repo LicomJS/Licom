@@ -222,9 +222,15 @@ const registerUser = async (req, res, next) => {
 const postComments = async (req, res, next) => {
   const commentMsg = req.body.comment.trim();
 
-  if (commentMsg.length < 2 || commentMsg.length > 2000) {
+  if (req.body.url.length < 1 || req.body.url.length > 2000) {
     return res.send({
-      error: "Comment can have min 2 and max 2000 characters.",
+      error: "Website URL to long. Max 2000 characters.",
+    });
+  }
+
+  if (commentMsg.length < 2 || commentMsg.length > 3000) {
+    return res.send({
+      error: "Comment can have min 2 and max 3000 characters.",
     });
   }
 
