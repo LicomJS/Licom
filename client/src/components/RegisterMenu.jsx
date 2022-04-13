@@ -152,22 +152,30 @@ const RegisterMenu = ({ setAuth }) => {
                 The private key will never be sent to the server, it will only
                 be stored on your device and used to sign messages.
               </p>
+              <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                Save now your <em>private key</em>, you will never see it again,
+                and without <em>private key</em>
+                you will never be able to log in.
+              </p>
             </div>
             <div className="border-t border-gray-200">
               <dl>
-                <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                {/* <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt className="text-sm font-medium text-gray-500">
                     Public key:
                   </dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                     {key.publicKey}
                   </dd>
-                </div>
+                </div> */}
                 <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt className="text-sm font-medium text-gray-500">
                     Private key:
                   </dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  <dd
+                    style={{ lineBreak: "anywhere" }}
+                    className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"
+                  >
                     {key.privateKey}
                   </dd>
                 </div>
@@ -178,7 +186,14 @@ const RegisterMenu = ({ setAuth }) => {
           <div style={{ margin: 10 }}>
             <button
               className="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
-              onClick={registerApi}
+              onClick={() => {
+                let cpk = prompt("What's your private key?");
+                if (cpk === key.privateKey) {
+                  registerApi();
+                } else {
+                  alert("Save your private key and confirm.");
+                }
+              }}
             >
               {loading ? <LoadingBtn /> : <>Register me</>}
             </button>
