@@ -63,12 +63,8 @@ const checkLogin = async (req, res, next) => {
   if (checkFp && checkFp.userLogin !== null) {
     return res.send({
       // Error. You have already one account:
-      error: "E-4",
+      error: "E-4", // checkFp.userLogin
     });
-    // return res.send({
-    //   // Error. You have already one account:
-    //   error: "E-4" + checkFp.userLogin,
-    // });
   }
 
   const user = await prisma.user.count({
