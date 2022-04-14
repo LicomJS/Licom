@@ -15,6 +15,7 @@ model User {
 
   comments    Comment[]
   fingerprint Fingerprint[]
+  votes       Vote[]
 }
 
 model Webpage {
@@ -25,10 +26,14 @@ model Webpage {
 }
 
 model Comment {
-  id      Int      @id @default(autoincrement())
-  comment String
-  time    DateTime @default(now())
-  deleted Int      @default(0)
+  id        Int      @id @default(autoincrement())
+  comment   String
+  time      DateTime @default(now())
+  deleted   Int      @default(0)
+  votesUp   Int      @default(0)
+  votesDown Int      @default(0)
+
+  votes Vote[]
 
   User       User?    @relation(fields: [userLogin], references: [login])
   userLogin  String?
@@ -43,4 +48,13 @@ model Fingerprint {
 
   User      User?   @relation(fields: [userLogin], references: [login])
   userLogin String?
+}
+
+model Vote {
+  id Int @id @default(autoincrement())
+
+  User      User?    @relation(fields: [userLogin], references: [login])
+  userLogin String?
+  Comment   Comment? @relation(fields: [commentId], references: [id])
+  commentId Int?
 }

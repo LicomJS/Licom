@@ -175,56 +175,6 @@ const registerUser = async (req, res, next) => {
   );
 };
 
-// const authUser = async (req, res, next) => {
-//   verifyMessage(req.body.login, req.body.signature, req.body.publicKey).then(
-//     async (verify) => {
-//       if (verify) {
-//         const authKey = nanoid(20);
-//         let upUser;
-//         let login = req.body.login.trim();
-//         let publicKey = req.body.publicKey.trim();
-//         // let fp = String(req.body.hash);
-
-//         try {
-//           // fpCheck = await prisma.fingerprint.findFirst({
-//           //   where: { fp },
-//           // });
-
-//           // if (fpCheck && (fpCheck.count === 0 || fpCheck.joined === 0)) {
-//           //   return res.send({ error: "Error. Please try again." });
-//           // }
-
-//           upUser = await prisma.user.upsert({
-//             create: { login, publicKey, authKey },
-//             update: { authKey },
-//             where: { publicKey },
-//           });
-
-//           // await prisma.fingerprint.update({
-//           //   where: { fp },
-//           //   data: { count: 0, userLogin: login },
-//           // });
-
-//           return res.send({
-//             authKey: upUser.authKey,
-//             login: upUser.login,
-//             publicKey: upUser.publicKey,
-//           });
-//         } catch (error) {
-//           return res.send({ error: "Error, please try again." });
-//         }
-//       } else {
-//         return res.send({ error: "Signature not match, please try again." });
-//       }
-
-//       return next();
-//     }
-//   );
-
-//   // console.log(req.body.login);
-//   // console.log(req.body.publicKey);
-// };
-
 const postComments = async (req, res, next) => {
   const commentMsg = req.body.comment.trim();
 
@@ -334,6 +284,8 @@ const getComments = async (req, res, next) => {
       userLogin: true,
       webpageUrl: true,
       deleted: true,
+      votesUp: true,
+      votesDown: true,
     },
     orderBy: {
       id: "asc",
@@ -345,12 +297,90 @@ const getComments = async (req, res, next) => {
   return next();
 };
 
+// eslint-disable-next-line no-unused-vars
+const voteComment = async (req, res, next) => {
+  let authKey = req.body.authKey;
+  let commentId = req.body.id;
+  let vote = req.body.vote;
+  let vreturn;
+
+  const user = await prisma.user.findFirst({
+    where: { authKey },
+  });
+
+  if (!user) {
+    return res.send({ error: "Please log in to vote." });
+  }
+
+  const hasVoted = await prisma.vote.count({
+    where: {
+      userLogin: user.login,
+      commentId,
+    },
+  });
+
+  if (hasVoted !== 0) {
+    return res.send({ error: "Already voted on this comment." });
+  }
+
+  switch (vote) {
+    case 0:
+      vreturn = await prisma.comment.update({
+        where: {
+          id: commentId,
+        },
+        data: {
+          votesDown: {
+            increment: 1,
+          },
+        },
+        select: {
+          id: true,
+          votesUp: true,
+          votesDown: true,
+        },
+      });
+
+      break;
+    case 1:
+      vreturn = await prisma.comment.update({
+        where: {
+          id: commentId,
+        },
+        data: {
+          votesUp: {
+            increment: 1,
+          },
+        },
+        select: {
+          id: true,
+          votesUp: true,
+          votesDown: true,
+        },
+      });
+      break;
+
+    default:
+      res.send({ error: "Unknow vote option." });
+      break;
+  }
+
+  await prisma.vote.create({
+    data: {
+      userLogin: user.login,
+      commentId,
+    },
+  });
+
+  return res.send({ success: vreturn });
+};
+
 module.exports = {
   getComments,
   postComments,
-  // authUser,
   checkLogin,
   deleteComment,
   loginUser,
   registerUser,
+  voteComment,
 };

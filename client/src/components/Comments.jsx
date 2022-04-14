@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import React, { useRef, useState, useEffect } from "react";
 import { signMessage } from "ed25519-keys";
-import moment from "moment";
 import axios from "axios";
-import ErrorDiv from "./ErrorDiv";
+import CommentForm from "./CommentForm";
+import CommentsList from "./CommentsList";
 
 // eslint-disable-next-line react/prop-types
 const Comments = ({ url, auth }) => {
@@ -70,12 +70,12 @@ const Comments = ({ url, auth }) => {
 
   return (
     <div>
-      <div className="inline-flex items-center bg-white leading-none rounded-full p-2 shadow text-teal text-sm">
+      <div className="mt-5 inline-flex items-center bg-white leading-none rounded-full p-1 shadow text-teal text-sm">
         <span className="inline-flex bg-gray-700 text-white rounded-full h-6 px-3 justify-center items-center">
           Page
         </span>
-        <span className="inline-flex px-2 text-gray-700">{url}</span>/ {count}{" "}
-        comments
+        {/* <span className="inline-flex px-2 text-gray-700">{url}</span> */}
+        <span className="inline-flex px-2 text-gray-700">{count} comments</span>
       </div>
 
       {loading && (
@@ -88,133 +88,20 @@ const Comments = ({ url, auth }) => {
         </div>
       )}
 
-      <div className="px-4 py-5 border-b rounded-t sm:px-6">
-        <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-md">
-          <ul className="divide-y divide-gray-200">
-            {comments.map((c, key) => (
-              <li
-                key={key}
-                style={{
-                  opacity: c.deleted === 1 ? 0.2 : 1,
-                  wordWrap: "break-word",
-                  lineBreak: "anywhere",
-                }}
-              >
-                <a className="block hover:bg-gray-50 dark:hover:bg-gray-900">
-                  <div className="px-4 py-4 sm:px-6">
-                    <div className="flex items-center justify-between">
-                      <p className="text-md text-gray-700 dark:text-white md:truncate">
-                        {c.deleted === 1 ? (
-                          <em>Comment deleted by author</em>
-                        ) : (
-                          <span>{c.comment}</span>
-                        )}
-                      </p>
-                      <div className="ml-2 flex-shrink-0 flex">
-                        <p>+/-</p>
+      <CommentsList
+        comments={comments}
+        auth={auth}
+        setComments={setComments}
+        setError={setError}
+      />
 
-                        <p>
-                          {c.userLogin === auth.login && c.deleted !== 1 && (
-                            <button
-                              style={{ marginRight: 5, color: "#aaa" }}
-                              onClick={() => {
-                                if (
-                                  window.confirm(
-                                    "Do you really want to delete?"
-                                  )
-                                ) {
-                                  axios({
-                                    method: "delete",
-                                    url:
-                                      process.env.REACT_APP_API_SERVER +
-                                      "/api/comment",
-                                    data: {
-                                      id: c.id,
-                                      authKey: auth.authKey,
-                                    },
-                                  }).then((res) => {
-                                    if (res.data.success) {
-                                      setComments(
-                                        comments.map((x) =>
-                                          x.id === res.data.id
-                                            ? { ...x, deleted: 1 }
-                                            : x
-                                        )
-                                      );
-                                    } else {
-                                      setError(res.data.error);
-                                    }
-                                  });
-                                }
-                              }}
-                            >
-                              delete
-                            </button>
-                          )}
-                        </p>
-
-                        <p className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                          {c.userLogin}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="mt-2 sm:flex sm:justify-between">
-                      <div className="sm:flex">
-                        <p className="flex items-center text-md font-light text-gray-500 dark:text-gray-300">
-                          {moment(c.time).fromNow()}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      <div className="flex w-full max-w-sm space-x-3">
-        <div className="w-full max-w-2xl px-5 py-10 m-auto mt-10 bg-white rounded-lg shadow dark:bg-gray-800">
-          <div className="mb-6 text-3xl font-light text-center text-gray-800 dark:text-white">
-            Add new comment
-          </div>
-
-          {error && <ErrorDiv error={error} />}
-
-          <div className="grid max-w-xl grid-cols-2 gap-4 m-auto">
-            <div className="col-span-2">
-              <label className="text-gray-700" htmlFor="name">
-                <textarea
-                  ref={msgRef}
-                  className="flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                  id="comment"
-                  placeholder="Enter your comment"
-                  name="comment"
-                  rows="5"
-                  cols="40"
-                  maxLength={3000}
-                  onChange={(e) => {
-                    setCommentLength(e.target.value.length);
-                  }}
-                ></textarea>
-                <small className="dark:text-white">
-                  <em>Characters {3000 - commentLength} remaining</em>
-                </small>
-              </label>
-            </div>
-            <div className="col-span-2 text-right">
-              <button
-                disabled={commentLength > 3000 ? true : false}
-                type="submit"
-                className="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
-                onClick={postComment}
-              >
-                Send
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <CommentForm
+        msgRef={msgRef}
+        setCommentLength={setCommentLength}
+        commentLength={commentLength}
+        postComment={postComment}
+        error={error}
+      />
     </div>
   );
 };
