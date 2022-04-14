@@ -78,7 +78,7 @@ const Comments = ({ url, auth }) => {
         </span>
         {/* <span className="inline-flex px-2 text-gray-700">{url}</span> */}
         <span className="inline-flex px-2 text-gray-700">
-          {count} {t("comments")}
+          {count} {count > 1 ? t("comments") : t("comment")}
         </span>
       </div>
 

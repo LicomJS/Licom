@@ -147,7 +147,7 @@ const RegisterMenu = ({ setAuth, t }) => {
                 <strong>
                   <em>{t("private key")}</em>
                 </strong>{" "}
-                {t("in a save place, or print it!")}
+                {t("in a safe place, or print it!")}
               </h3>
               <p className="mt-1 max-w-2xl text-sm text-gray-500">
                 {t(

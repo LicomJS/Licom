@@ -8,7 +8,7 @@ const CommentsList = ({ comments, auth, setComments, t }) => {
   const [error, setError] = useState("");
 
   const deleteCommentApi = (c) => {
-    if (window.confirm("Do you really want to delete this comment?")) {
+    if (window.confirm(t("Do you really want to delete this comment?"))) {
       axios({
         method: "delete",
         url: process.env.REACT_APP_API_SERVER + "/api/comment",
@@ -60,7 +60,8 @@ const CommentsList = ({ comments, auth, setComments, t }) => {
   };
 
   return (
-    <div className="antialiased mx-auto max-w-screen-sm mt-4">
+    <div className="antialiased mx-auto mt-4">
+      {/* max-w-screen-sm */}
       <div className="space-y-3">
         {comments.map((c, key) => (
           <div
@@ -95,10 +96,11 @@ const CommentsList = ({ comments, auth, setComments, t }) => {
                 -
               </button>
             </div>
-            <div className="flex-1 border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed dark:bg-gray-400">
+            <div className="flex-1 border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed bg-white dark:bg-gray-400">
               <div className="flex items-center justify-between">
                 <strong>{c.userLogin}</strong>
                 <span title={c.time} className="text-xs dark:text-gray-600">
+                  {/* {moment(c.time).locale("pl").fromNow()} */}
                   {moment(c.time).fromNow()}
                 </span>
                 {/* <p className="ml-2 flex-shrink-0 flex">sdf</p> */}
