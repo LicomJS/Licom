@@ -26,23 +26,24 @@ const App = () => {
               <div className="w-full">
                 {auth ? (
                   <>
-                    <h1 className="text-4xl font-semibold text-gray-800 dark:text-white">
-                      <div>Hello, {auth.login}!</div>
-                    </h1>
+                    <div className="flex items-start justify-between m-1">
+                      <div className="text-gray-800 dark:text-white">
+                        <div>Hello, {auth.login}!</div>
+                      </div>
 
-                    <button
-                      className="dark:text-white"
-                      style={{ float: "right" }}
-                      onClick={() => {
-                        if (window.confirm("Do you really want to logout?")) {
-                          localStorage.removeItem("licom");
-                          setAuth("");
-                          setPage("");
-                        }
-                      }}
-                    >
-                      Logout
-                    </button>
+                      <button
+                        className="dark:text-white underline"
+                        onClick={() => {
+                          if (window.confirm("Do you really want to logout?")) {
+                            localStorage.removeItem("licom");
+                            setAuth("");
+                            setPage("");
+                          }
+                        }}
+                      >
+                        Logout
+                      </button>
+                    </div>
 
                     {url && <Comments url={url} auth={auth} />}
                   </>

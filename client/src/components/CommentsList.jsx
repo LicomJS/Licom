@@ -8,7 +8,7 @@ const CommentsList = ({ comments, auth, setComments }) => {
   const [error, setError] = useState("");
   //
   const deleteCommentApi = (c) => {
-    if (window.confirm("Do you really want to delete?")) {
+    if (window.confirm("Do you really want to delete this comment?")) {
       axios({
         method: "delete",
         url: process.env.REACT_APP_API_SERVER + "/api/comment",

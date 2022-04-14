@@ -10,9 +10,11 @@
     "clientjs": "^0.2.1",
     "ed25519-keys": "^1.2.0",
     "fomantic-ui-css": "^2.8.8",
+    "i18next": "^21.6.16",
     "moment": "^2.29.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-i18next": "^11.16.6",
     "react-scripts": "5.0.0",
     "semantic-ui-react": "^2.1.2",
     "web-vitals": "^2.1.0"

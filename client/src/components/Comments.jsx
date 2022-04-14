@@ -70,7 +70,7 @@ const Comments = ({ url, auth }) => {
 
   return (
     <div>
-      <div className="mt-5 inline-flex items-center bg-white leading-none rounded-full p-1 shadow text-teal text-sm">
+      <div className="mt-5 ml-8 inline-flex items-center bg-white leading-none rounded-full p-1 shadow text-teal text-sm">
         <span className="inline-flex bg-gray-700 text-white rounded-full h-6 px-3 justify-center items-center">
           Page
         </span>
