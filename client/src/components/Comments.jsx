@@ -4,6 +4,7 @@ import { signMessage } from "ed25519-keys";
 import axios from "axios";
 import CommentForm from "./CommentForm";
 import CommentsList from "./CommentsList";
+import { useTranslation } from "react-i18next";
 
 // eslint-disable-next-line react/prop-types
 const Comments = ({ url, auth }) => {
@@ -14,6 +15,7 @@ const Comments = ({ url, auth }) => {
   const [commentLength, setCommentLength] = useState(0);
   const msgRef = useRef();
   const loaded = useRef(false);
+  const { t } = useTranslation();
 
   const postComment = () => {
     if (!msgRef.current.value) return;
@@ -72,23 +74,32 @@ const Comments = ({ url, auth }) => {
     <div>
       <div className="mt-5 ml-8 inline-flex items-center bg-white leading-none rounded-full p-1 shadow text-teal text-sm">
         <span className="inline-flex bg-gray-700 text-white rounded-full h-6 px-3 justify-center items-center">
-          Page
+          {t("Page")}
         </span>
         {/* <span className="inline-flex px-2 text-gray-700">{url}</span> */}
-        <span className="inline-flex px-2 text-gray-700">{count} comments</span>
+        <span className="inline-flex px-2 text-gray-700">
+          {count} {t("comments")}
+        </span>
       </div>
 
       {loading && (
         <div className="px-4 py-5 border-b rounded-t sm:px-6">
           <div className="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-md">
             <div className="inline-flex items-center bg-white leading-none  rounded-full p-2 shadow text-teal text-sm">
-              <span className="inline-flex px-2 text-gray-700">Loading...</span>
+              <span className="inline-flex px-2 text-gray-700">
+                {t("Loading...")}
+              </span>
             </div>
           </div>
         </div>
       )}
 
-      <CommentsList comments={comments} auth={auth} setComments={setComments} />
+      <CommentsList
+        comments={comments}
+        auth={auth}
+        setComments={setComments}
+        t={t}
+      />
 
       <CommentForm
         msgRef={msgRef}
@@ -96,6 +107,7 @@ const Comments = ({ url, auth }) => {
         commentLength={commentLength}
         postComment={postComment}
         error={error}
+        t={t}
       />
     </div>
   );

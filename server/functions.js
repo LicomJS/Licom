@@ -18,7 +18,8 @@ const deleteComment = async (req, res, next) => {
       },
     });
   } catch (error) {
-    return res.send({ error: "Comment not found." });
+    // Comment not found.
+    return res.send({ error: "E-1" });
   }
 
   if (isOwn && req.body.authKey === isOwn.User.authKey) {
@@ -44,11 +45,13 @@ const checkLogin = async (req, res, next) => {
   let fp = String(req.body.hash);
 
   if (!fp) {
-    return res.send({ error: "Error. Please try again." });
+    // Error. Please try again.
+    return res.send({ error: "E-2" });
   }
 
   if (login.length < 2 || login.length > 30) {
-    return res.send({ error: "Login can have min 2 and max 30 characters." });
+    // Login can have min 2 and max 30 characters.
+    return res.send({ error: "E-3" });
   }
 
   const checkFp = await prisma.fingerprint.findFirst({
@@ -59,8 +62,13 @@ const checkLogin = async (req, res, next) => {
 
   if (checkFp && checkFp.userLogin !== null) {
     return res.send({
-      error: "Error. You have already one account: " + checkFp.userLogin,
+      // Error. You have already one account:
+      error: "E-4",
     });
+    // return res.send({
+    //   // Error. You have already one account:
+    //   error: "E-4" + checkFp.userLogin,
+    // });
   }
 
   const user = await prisma.user.count({
@@ -80,7 +88,8 @@ const checkLogin = async (req, res, next) => {
 
     res.send({ login, status: true });
   } else {
-    res.send({ error: "Login exist, try another one." });
+    // Login exist, try another one.
+    res.send({ error: "E-5" });
   }
 
   return next();
@@ -104,10 +113,12 @@ const loginUser = async (req, res, next) => {
             publicKey: upUser.publicKey,
           });
         } catch (error) {
-          return res.send({ error: "Error, please try again." });
+          // Error. Please try again.
+          return res.send({ error: "E-2" });
         }
       } else {
-        return res.send({ error: "Signature not match, please try again." });
+        // Signature not match, please try again.
+        return res.send({ error: "E-6" });
       }
 
       return next(); // never
@@ -119,7 +130,8 @@ const registerUser = async (req, res, next) => {
   let login = req.body.login.trim();
 
   if (login.length < 2 || login.length > 30) {
-    return res.send({ error: "Login can have min 2 and max 30 characters." });
+    // Login can have min 2 and max 30 characters.
+    return res.send({ error: "E-3" });
   }
 
   verifyMessage(req.body.login, req.body.signature, req.body.publicKey).then(
@@ -136,7 +148,8 @@ const registerUser = async (req, res, next) => {
           });
 
           if (!fpCheck || fpCheck.count === 0) {
-            return res.send({ error: "Error. Please try again." });
+            // Error. Please try again.
+            return res.send({ error: "E-2" });
           }
 
           let checkUser = await prisma.user.count({
@@ -146,7 +159,8 @@ const registerUser = async (req, res, next) => {
           });
 
           if (checkUser !== 0) {
-            return res.send({ error: "User exist." });
+            // Login exist, try another one.
+            return res.send({ error: "E-5" });
           }
 
           let upUser = await prisma.user.create({
@@ -164,10 +178,12 @@ const registerUser = async (req, res, next) => {
             publicKey: upUser.publicKey,
           });
         } catch (error) {
-          return res.send({ error: "Error, please try again." });
+          // Error. Please try again.
+          return res.send({ error: "E-2" });
         }
       } else {
-        return res.send({ error: "Signature not match, please try again." });
+        // Signature not match, please try again.
+        return res.send({ error: "E-6" });
       }
 
       return next(); // never
@@ -180,13 +196,15 @@ const postComments = async (req, res, next) => {
 
   if (req.body.url.length < 1 || req.body.url.length > 2000) {
     return res.send({
-      error: "Website URL to long. Max 2000 characters.",
+      // Website URL to long. Max 2000 characters.
+      error: "E-7",
     });
   }
 
   if (commentMsg.length < 2 || commentMsg.length > 3000) {
     return res.send({
-      error: "Comment can have min 2 and max 3000 characters.",
+      // Comment can have min 2 and max 3000 characters.
+      error: "E-8",
     });
   }
 
@@ -198,11 +216,13 @@ const postComments = async (req, res, next) => {
       },
     });
   } catch (error) {
-    return res.send({ error: "Please log in to post comment." });
+    // Please log in to post comment.
+    return res.send({ error: "E-9" });
   }
 
   if (user === null) {
-    return res.send({ error: "Please log in to post comment." });
+    // Please log in to post comment.
+    return res.send({ error: "E-9" });
   }
 
   verifyMessage(req.body.comment, req.body.signature, user.publicKey).then(
@@ -247,7 +267,8 @@ const postComments = async (req, res, next) => {
           res.send({ meta: comment });
         }
       } else {
-        res.send({ error: "Signature not match, please try again." });
+        // Signature not match, please try again.
+        res.send({ error: "E-6" });
       }
 
       return next();
@@ -263,7 +284,8 @@ const getComments = async (req, res, next) => {
   });
 
   if (user === 0) {
-    res.send({ error: "Please log in to see comments" });
+    // Please log in to see comments.
+    return res.send({ error: "E-10" });
   }
 
   const page = await prisma.webpage.findFirst({
@@ -313,7 +335,8 @@ const voteComment = async (req, res, next) => {
   });
 
   if (!comment || comment.deleted === 1) {
-    return res.send({ error: "Cannot vote od dead comments." });
+    // Cannot vote on dead comments.
+    return res.send({ error: "E-11" });
   }
 
   const user = await prisma.user.findFirst({
@@ -321,7 +344,8 @@ const voteComment = async (req, res, next) => {
   });
 
   if (!user) {
-    return res.send({ error: "Please log in to vote." });
+    // Please log in to vote.
+    return res.send({ error: "E-12" });
   }
 
   const hasVoted = await prisma.vote.count({
@@ -332,7 +356,8 @@ const voteComment = async (req, res, next) => {
   });
 
   if (hasVoted !== 0) {
-    return res.send({ error: "Already voted on this comment." });
+    // Already voted on this comment.
+    return res.send({ error: "E-13" });
   }
 
   switch (vote) {
@@ -373,7 +398,8 @@ const voteComment = async (req, res, next) => {
       break;
 
     default:
-      res.send({ error: "Unknow vote option." });
+      // Unknow vote option.
+      res.send({ error: "E-14" });
       break;
   }
 

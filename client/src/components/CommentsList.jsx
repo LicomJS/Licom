@@ -4,9 +4,9 @@ import moment from "moment";
 import axios from "axios";
 import ErrorDiv from "./ErrorDiv";
 
-const CommentsList = ({ comments, auth, setComments }) => {
+const CommentsList = ({ comments, auth, setComments, t }) => {
   const [error, setError] = useState("");
-  //
+
   const deleteCommentApi = (c) => {
     if (window.confirm("Do you really want to delete this comment?")) {
       axios({
@@ -81,7 +81,9 @@ const CommentsList = ({ comments, auth, setComments }) => {
                 +
               </button>
               <span
-                title={`Votes up: ${c.votesUp} / Votes down: ${c.votesDown}`}
+                title={`${t("Votes up")}: ${c.votesUp} / ${t("Votes down")}: ${
+                  c.votesDown
+                }`}
               >
                 {c.votesUp - c.votesDown}
               </span>
@@ -105,13 +107,13 @@ const CommentsList = ({ comments, auth, setComments }) => {
                     className="text-xs dark:text-gray-500"
                     onClick={() => deleteCommentApi(c)}
                   >
-                    delete
+                    {t("delete")}
                   </button>
                 )}
               </div>
               <p className="text-sm">
                 {c.deleted === 1 ? (
-                  <em>Comment deleted by author</em>
+                  <em>{t("Comment deleted by author")}</em>
                 ) : (
                   <span>{c.comment}</span>
                 )}
