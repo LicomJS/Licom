@@ -75,9 +75,11 @@ const checkLogin = async (req, res, next) => {
     where: { login },
   });
 
+  let rk = nanoid(20);
+
   if (user === 0) {
-    await prisma.fingerprint.upsert({
-      create: { fp, count: 1 },
+    const up = await prisma.fingerprint.upsert({
+      create: { fp, count: 1, rKey: rk },
       update: {
         count: {
           increment: 1,
@@ -86,7 +88,7 @@ const checkLogin = async (req, res, next) => {
       where: { fp },
     });
 
-    res.send({ login, status: true });
+    res.send({ login, status: true, rk: up.rKey });
   } else {
     // Login exist, try another one.
     res.send({ error: "E-5" });
@@ -140,6 +142,7 @@ const registerUser = async (req, res, next) => {
         const authKey = nanoid(20);
         let login = req.body.login.trim();
         let publicKey = req.body.publicKey.trim();
+        let rk = req.body.rk.trim();
         let fp = String(req.body.hash);
 
         try {
@@ -147,7 +150,12 @@ const registerUser = async (req, res, next) => {
             where: { fp },
           });
 
-          if (!fpCheck || fpCheck.count === 0) {
+          if (
+            !fpCheck ||
+            fpCheck.count <= 1 ||
+            fpCheck.rKey !== rk ||
+            fpCheck.rKey.length !== 20
+          ) {
             // Error. Please try again.
             return res.send({ error: "E-2" });
           }
@@ -169,7 +177,7 @@ const registerUser = async (req, res, next) => {
 
           await prisma.fingerprint.update({
             where: { fp },
-            data: { count: 0, userLogin: login },
+            data: { count: 0, userLogin: login, rKey: "" },
           });
 
           return res.send({

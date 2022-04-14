@@ -12,6 +12,7 @@ const RegisterMenu = ({ setAuth, t }) => {
   const [error, setError] = useState("");
   const [checkLogin, setCheckLogin] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [registerKey, setRegisterKey] = useState("");
   const loginRef = useRef();
 
   const client = new ClientJS();
@@ -31,6 +32,7 @@ const RegisterMenu = ({ setAuth, t }) => {
         setLoading(false);
         setCheckLogin(true);
         setError("");
+        setRegisterKey(res.data.rk);
       } else {
         setLoading(false);
         setCheckLogin(false);
@@ -50,6 +52,7 @@ const RegisterMenu = ({ setAuth, t }) => {
           signature,
           publicKey: key.publicKey,
           hash: fingerprint,
+          rk: registerKey,
         },
       }).then((res) => {
         if (res.data.authKey) {

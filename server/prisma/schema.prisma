@@ -45,6 +45,7 @@ model Fingerprint {
   fp    String   @unique
   time  DateTime @default(now())
   count Int      @default(0)
+  rKey  String   @default("")
 
   User      User?   @relation(fields: [userLogin], references: [login])
   userLogin String?
