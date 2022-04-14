@@ -80,7 +80,11 @@ const CommentsList = ({ comments, auth, setComments }) => {
               >
                 +
               </button>
-              <span>{c.votesUp - c.votesDown}</span>
+              <span
+                title={`Votes up: ${c.votesUp} / Votes down: ${c.votesDown}`}
+              >
+                {c.votesUp - c.votesDown}
+              </span>
               <button
                 onClick={() => {
                   voteApi(c.id, 0);
@@ -92,7 +96,7 @@ const CommentsList = ({ comments, auth, setComments }) => {
             <div className="flex-1 border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed dark:bg-gray-400">
               <div className="flex items-center justify-between">
                 <strong>{c.userLogin}</strong>
-                <span className="text-xs dark:text-gray-600">
+                <span title={c.time} className="text-xs dark:text-gray-600">
                   {moment(c.time).fromNow()}
                 </span>
                 {/* <p className="ml-2 flex-shrink-0 flex">sdf</p> */}
