@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
-import React from "react";
+import React, { useState } from "react";
 import moment from "moment";
 import axios from "axios";
+import ErrorDiv from "./ErrorDiv";
 
-const CommentsList = ({ comments, auth, setComments, setError }) => {
+const CommentsList = ({ comments, auth, setComments }) => {
+  const [error, setError] = useState("");
   //
   const deleteCommentApi = (c) => {
     if (window.confirm("Do you really want to delete?")) {
@@ -22,7 +24,7 @@ const CommentsList = ({ comments, auth, setComments, setError }) => {
             )
           );
         } else {
-          setError(res.data.error);
+          setError({ id: c.id, error: res.data.error });
         }
       });
     }
@@ -52,7 +54,7 @@ const CommentsList = ({ comments, auth, setComments, setError }) => {
         );
         setError("");
       } else {
-        setError(res.data.error);
+        setError({ id, error: res.data.error });
       }
     });
   };
@@ -87,7 +89,6 @@ const CommentsList = ({ comments, auth, setComments, setError }) => {
                 -
               </button>
             </div>
-
             <div className="flex-1 border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed dark:bg-gray-400">
               <div className="flex items-center justify-between">
                 <strong>{c.userLogin}</strong>
@@ -104,7 +105,6 @@ const CommentsList = ({ comments, auth, setComments, setError }) => {
                   </button>
                 )}
               </div>
-
               <p className="text-sm">
                 {c.deleted === 1 ? (
                   <em>Comment deleted by author</em>
@@ -118,6 +118,7 @@ const CommentsList = ({ comments, auth, setComments, setError }) => {
                   5 Replies
                 </div>
               </div> */}
+              {error && error.id === c.id && <ErrorDiv error={error.error} />}
             </div>
           </div>
         ))}

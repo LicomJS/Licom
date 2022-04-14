@@ -88,12 +88,7 @@ const Comments = ({ url, auth }) => {
         </div>
       )}
 
-      <CommentsList
-        comments={comments}
-        auth={auth}
-        setComments={setComments}
-        setError={setError}
-      />
+      <CommentsList comments={comments} auth={auth} setComments={setComments} />
 
       <CommentForm
         msgRef={msgRef}

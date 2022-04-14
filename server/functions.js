@@ -239,6 +239,8 @@ const postComments = async (req, res, next) => {
               userLogin: true,
               webpageUrl: true,
               deleted: true,
+              votesUp: true,
+              votesDown: true,
             },
           });
 
@@ -303,6 +305,16 @@ const voteComment = async (req, res, next) => {
   let commentId = req.body.id;
   let vote = req.body.vote;
   let vreturn;
+
+  const comment = await prisma.comment.findFirst({
+    where: {
+      id: commentId,
+    },
+  });
+
+  if (!comment || comment.deleted === 1) {
+    return res.send({ error: "Cannot vote od dead comments." });
+  }
 
   const user = await prisma.user.findFirst({
     where: { authKey },
