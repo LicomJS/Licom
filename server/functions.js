@@ -340,7 +340,7 @@ const getComments = async (req, res, next) => {
     },
   });
 
-  res.send({ meta: comments, page });
+  res.send({ meta: comments, page: page === null ? { count: 0 } : page });
 
   return next();
 };

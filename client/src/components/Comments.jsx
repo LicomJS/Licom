@@ -17,6 +17,7 @@ const Comments = ({ url, auth }) => {
 
   const postComment = () => {
     if (!msgRef.current.value) return;
+
     signMessage(msgRef.current.value, auth.privateKey).then((signature) => {
       axios({
         method: "post",
@@ -110,6 +111,8 @@ const Comments = ({ url, auth }) => {
                         )}
                       </p>
                       <div className="ml-2 flex-shrink-0 flex">
+                        <p>+/-</p>
+
                         <p>
                           {c.userLogin === auth.login && c.deleted !== 1 && (
                             <button

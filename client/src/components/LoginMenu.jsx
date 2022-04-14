@@ -9,6 +9,8 @@ const LoginMenu = ({ setAuth }) => {
   const keyRef = useRef();
 
   const loginApi = () => {
+    if (!keyRef.current.value) return;
+
     const signIt = "licom";
     privateToPublic(keyRef.current.value).then((publicKey) => {
       signMessage(signIt, keyRef.current.value).then((signature) => {

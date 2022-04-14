@@ -4,10 +4,11 @@ import React from "react";
 const ErrorDiv = ({ error }) => {
   return (
     <div
-      style={{ margin: 10 }}
-      className="inline-flex items-center bg-white leading-none rounded-full p-2 shadow text-teal text-sm"
+      className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded relative my-3"
+      role="alert"
     >
-      <span className="inline-flex px-2 text-pink-600">{error}</span>
+      {/* <strong className="font-bold">Error</strong> */}
+      <span className="block sm:inline">{error}</span>
     </div>
   );
 };
