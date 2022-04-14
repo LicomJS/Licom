@@ -81,9 +81,8 @@ const RegisterMenu = ({ setAuth, t }) => {
       {!login && (
         <>
           <input
-            style={{ marginTop: 10 }}
             type="text"
-            className="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+            className="mt-5 rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
             placeholder={t("Your login name")}
             ref={loginRef}
             onChange={() => {
@@ -101,8 +100,7 @@ const RegisterMenu = ({ setAuth, t }) => {
           />
 
           <button
-            style={{ marginTop: 10 }}
-            className="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
+            className="mt-5 py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
             onClick={() => {
               if (checkLogin) {
                 setLogin(loginRef.current.value);
@@ -114,7 +112,7 @@ const RegisterMenu = ({ setAuth, t }) => {
             {loading ? (
               <LoadingBtn />
             ) : (
-              <>{checkLogin ? "Next" : "Check login"}</>
+              <>{checkLogin ? t("Next") : t("Check login")}</>
             )}
           </button>
 
@@ -125,7 +123,7 @@ const RegisterMenu = ({ setAuth, t }) => {
       {login && !key && (
         <div>
           <button
-            className="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
+            className="mt-5 py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
             onClick={() => {
               generateKey(32).then((key) => {
                 setKey(key);
@@ -139,7 +137,7 @@ const RegisterMenu = ({ setAuth, t }) => {
 
       {key && (
         <>
-          <div className="bg-white max-w-2xl shadow overflow-hidden sm:rounded-lg">
+          <div className="mt-5 bg-white max-w-2xl shadow overflow-hidden sm:rounded-lg">
             <div className="px-4 py-5 sm:px-6">
               <h3 className="text-lg leading-6 font-medium text-gray-900">
                 {t("Save now your")}{" "}
@@ -184,9 +182,9 @@ const RegisterMenu = ({ setAuth, t }) => {
             </div>
           </div>
 
-          <div style={{ margin: 10 }}>
+          <div>
             <button
-              className="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
+              className="mt-5 py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg "
               onClick={() => {
                 let cpk = prompt(t("Confirm your private key"));
                 if (cpk === key.privateKey) {

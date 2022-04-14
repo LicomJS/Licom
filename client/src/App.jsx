@@ -55,7 +55,7 @@ const App = () => {
                   </>
                 ) : (
                   <div>
-                    <div style={{ margin: 20 }} className="flex items-center">
+                    <div className="m-5 flex items-center">
                       <button
                         type="button"
                         className="w-full border-l border-t border-b text-base font-medium rounded-l-md text-black bg-white hover:bg-gray-100 px-4 py-2"
