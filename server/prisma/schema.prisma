@@ -33,6 +33,10 @@ model Comment {
   votesUp   Int      @default(0)
   votesDown Int      @default(0)
 
+  Children  Comment[] @relation("Comment_Children")
+  parent    Comment?  @relation("Comment_Children", fields: [parent_id], references: [id])
+  parent_id Int?
+
   votes Vote[]
 
   User       User?    @relation(fields: [userLogin], references: [login])

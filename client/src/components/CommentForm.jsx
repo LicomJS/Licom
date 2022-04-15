@@ -1,18 +1,45 @@
 /* eslint-disable react/prop-types */
-import React from "react";
+import React, { useState, useRef } from "react";
 import ErrorDiv from "./ErrorDiv";
+import axios from "axios";
+import { signMessage } from "ed25519-keys";
 
-const CommentForm = ({
-  commentLength,
-  msgRef,
-  setCommentLength,
-  postComment,
-  error,
-  t,
-}) => {
+const CommentForm = ({ auth, setComments, url, setCount, t, parent_id }) => {
+  const [commentLength, setCommentLength] = useState(0);
+  const [error, setError] = useState("");
+  const msgRef = useRef();
+
+  const postComment = () => {
+    if (!msgRef.current.value) return;
+
+    signMessage(msgRef.current.value, auth.privateKey).then((signature) => {
+      axios({
+        method: "post",
+        url: process.env.REACT_APP_API_SERVER + "/api/comment",
+        data: {
+          authKey: auth.authKey,
+          url,
+          comment: msgRef.current.value,
+          signature,
+          parent_id,
+        },
+      }).then((res) => {
+        if (res.data.meta) {
+          setComments((prev) => [...prev, res.data.meta]);
+          msgRef.current.value = "";
+          setCount((prev) => prev + 1);
+          setError("");
+          setCommentLength(0);
+        } else {
+          setError(res.data.error);
+        }
+      });
+    });
+  };
+
   return (
-    <div className="flex mx-auto items-center justify-center shadow-lg mt-5">
-      <div className="w-full mt-4 dark:bg-gray-500 bg-white rounded-lg px-4 pt-2">
+    <div className="flex mx-auto items-center justify-center dark:shadow-none shadow-lg mt-5">
+      <div className="w-full mt-4 dark:bg-transparent bg-white rounded-lg px-4 pt-2">
         <div className="flex flex-wrap -mx-3 mb-6">
           <h2 className="px-4 pt-3 pb-2 dark:text-gray-100 text-gray-800 text-lg">
             {t("Add a new comment")}

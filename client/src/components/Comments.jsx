@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import React, { useRef, useState, useEffect } from "react";
-import { signMessage } from "ed25519-keys";
 import axios from "axios";
 import CommentForm from "./CommentForm";
 import CommentsList from "./CommentsList";
 import { useTranslation } from "react-i18next";
+import ErrorDiv from "./ErrorDiv";
 
 // eslint-disable-next-line react/prop-types
 const Comments = ({ url, auth }) => {
@@ -12,37 +12,8 @@ const Comments = ({ url, auth }) => {
   const [comments, setComments] = useState([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [commentLength, setCommentLength] = useState(0);
-  const msgRef = useRef();
   const loaded = useRef(false);
   const { t } = useTranslation();
-
-  const postComment = () => {
-    if (!msgRef.current.value) return;
-
-    signMessage(msgRef.current.value, auth.privateKey).then((signature) => {
-      axios({
-        method: "post",
-        url: process.env.REACT_APP_API_SERVER + "/api/comment",
-        data: {
-          authKey: auth.authKey,
-          url,
-          comment: msgRef.current.value,
-          signature,
-        },
-      }).then((res) => {
-        if (res.data.meta) {
-          setComments((prev) => [...prev, res.data.meta]);
-          msgRef.current.value = "";
-          setCount((prev) => prev + 1);
-          setError("");
-          setCommentLength(0);
-        } else {
-          setError(res.data.error);
-        }
-      });
-    });
-  };
 
   useEffect(() => {
     if (loaded.current === false) {
@@ -94,20 +65,23 @@ const Comments = ({ url, auth }) => {
         </div>
       )}
 
+      {error && <ErrorDiv error={error} />}
+
       <CommentsList
         comments={comments}
         auth={auth}
         setComments={setComments}
+        url={url}
+        setCount={setCount}
         t={t}
       />
 
       <CommentForm
-        msgRef={msgRef}
-        setCommentLength={setCommentLength}
-        commentLength={commentLength}
-        postComment={postComment}
-        error={error}
+        auth={auth}
+        setComments={setComments}
+        url={url}
         t={t}
+        setCount={setCount}
       />
     </div>
   );

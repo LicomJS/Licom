@@ -255,16 +255,17 @@ const postComments = async (req, res, next) => {
               webpageUrl: url,
               comment: commentMsg,
               userLogin: user.login,
+              parent_id: req.body.parent_id,
             },
-            select: {
-              id: true,
-              time: true,
-              comment: true,
-              userLogin: true,
-              webpageUrl: true,
-              deleted: true,
-              votesUp: true,
-              votesDown: true,
+            // include: {
+            //   Children: true,
+            // },
+            include: {
+              Children: {
+                include: {
+                  Children: true,
+                },
+              },
             },
           });
 
@@ -304,16 +305,17 @@ const getComments = async (req, res, next) => {
   const comments = await prisma.comment.findMany({
     where: {
       webpageUrl: req.body.url,
+      parent_id: null,
     },
-    select: {
-      id: true,
-      time: true,
-      comment: true,
-      userLogin: true,
-      webpageUrl: true,
-      deleted: true,
-      votesUp: true,
-      votesDown: true,
+    // include: {
+    //   Children: true,
+    // },
+    include: {
+      Children: {
+        include: {
+          Children: true,
+        },
+      },
     },
     orderBy: {
       id: "asc",
