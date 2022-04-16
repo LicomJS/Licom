@@ -5,6 +5,7 @@ import english from "./locales/en/translation.json";
 import polish from "./locales/pl/translation.json";
 import germany from "./locales/de/translation.json";
 import dutch from "./locales/nl/translation.json";
+import french from "./locales/fr/translation.json";
 import moment from "moment";
 import "moment/min/locales";
 
@@ -24,6 +25,9 @@ i18n
       },
       nl: {
         translation: dutch,
+      },
+      fr: {
+        translation: french,
       },
     },
     fallbackLng: "en",
