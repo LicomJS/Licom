@@ -35,19 +35,6 @@ const App = () => {
                         </div>
                       </div>
 
-                      <select
-                        onChange={(e) => {
-                          i18next
-                            .changeLanguage(e.target.value)
-                            .then(moment.locale(e.target.value));
-                        }}
-                      >
-                        <option value="en">English</option>
-                        <option value="de">Deutsch</option>
-                        <option value="pl">Polski</option>
-                        <option value="nl">Nederlands</option>
-                      </select>
-
                       <button
                         className="dark:text-white underline"
                         onClick={() => {
@@ -89,6 +76,22 @@ const App = () => {
                   </div>
                 )}
               </div>
+              <select
+                className="mt-10"
+                style={{ float: "right" }}
+                onChange={(e) => {
+                  if (e.target.value !== "none")
+                    i18next
+                      .changeLanguage(e.target.value)
+                      .then(moment.locale(e.target.value));
+                }}
+              >
+                <option value="none">-select language-</option>
+                <option value="en">English</option>
+                <option value="de">Deutsch</option>
+                <option value="pl">Polski</option>
+                <option value="nl">Nederlands</option>
+              </select>
             </div>
           </div>
         </div>
