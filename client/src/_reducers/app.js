@@ -39,19 +39,12 @@ export const comments = (state = [], action) => {
       );
     case "DELETE_SUB_COMMENT":
       const deleteSubComment = state.map((comment) => {
-        const isCommentParent = comment.id === action.payload.parent_id;
-
-        if (!isCommentParent) return comment;
+        if (comment.id !== action.payload.parent_id) return comment;
 
         const updatedSubComments = comment.Children.map((subComment) => {
-          const isSubComment = subComment.id === action.payload.id;
+          if (subComment.id !== action.payload.id) return subComment;
 
-          if (!isSubComment) return subComment;
-
-          return {
-            ...subComment,
-            deleted: 1,
-          };
+          return { ...subComment, deleted: 1 };
         });
 
         return { ...comment, Children: updatedSubComments };
@@ -71,14 +64,10 @@ export const comments = (state = [], action) => {
       );
     case "VOTE_SUB_COMMENT":
       const voteSubComment = state.map((comment) => {
-        const isCommentParent = comment.id === action.payload.parent_id;
-
-        if (!isCommentParent) return comment;
+        if (comment.id !== action.payload.parent_id) return comment;
 
         const updatedSubComments = comment.Children.map((subComment) => {
-          const isSubComment = subComment.id === action.payload.id;
-
-          if (!isSubComment) return subComment;
+          if (subComment.id !== action.payload.id) return subComment;
 
           return {
             ...subComment,
