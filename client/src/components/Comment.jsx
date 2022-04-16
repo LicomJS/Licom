@@ -129,7 +129,7 @@ const Comment = ({ comment, url, type = "" }) => {
                   setReply((prev) => (prev !== comment.id ? comment.id : 0));
                 }}
               >
-                reply
+                {t("reply")}
               </button>
             )}
             {comment.userLogin === auth.login && comment.deleted !== 1 && (
