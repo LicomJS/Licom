@@ -2,22 +2,17 @@
 import React from "react";
 import Comment from "./Comment";
 
-const CommentsList = ({ comments, auth, setComments, setCount, url }) => {
+import { useSelector } from "react-redux";
+
+const CommentsList = ({ url }) => {
+  const comments = useSelector((state) => state.comments);
+
   return (
     <div className="antialiased mx-auto mt-4">
       {/* max-w-screen-sm */}
       <div className="space-y-3">
-        {comments.map((c, key) => (
-          <div key={key}>
-            <Comment
-              c={c}
-              comments={comments}
-              setComments={setComments}
-              auth={auth}
-              url={url}
-              setCount={setCount}
-            />
-          </div>
+        {comments.map((comment, key) => (
+          <Comment key={key} comment={comment} url={url} />
         ))}
       </div>
     </div>

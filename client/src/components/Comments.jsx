@@ -6,14 +6,18 @@ import CommentsList from "./CommentsList";
 import { useTranslation } from "react-i18next";
 import ErrorDiv from "./ErrorDiv";
 
+import { useSelector, useDispatch } from "react-redux";
+import { setComments, setCount } from "./../_actions";
+
 // eslint-disable-next-line react/prop-types
-const Comments = ({ url, auth }) => {
+const Comments = ({ url }) => {
   const [error, setError] = useState("");
-  const [comments, setComments] = useState([]);
-  const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const loaded = useRef(false);
   const { t } = useTranslation();
+  const auth = useSelector((state) => state.auth);
+  const count = useSelector((state) => state.count);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (loaded.current === false) {
@@ -29,8 +33,8 @@ const Comments = ({ url, auth }) => {
         setLoading(false);
 
         if (res.data.meta) {
-          setComments(res.data.meta);
-          setCount(res.data.page.count);
+          dispatch(setComments(res.data.meta));
+          dispatch(setCount(res.data.page.count));
           setError("");
         } else {
           setError(res.data.error);
@@ -67,22 +71,8 @@ const Comments = ({ url, auth }) => {
 
       {error && <ErrorDiv error={error} />}
 
-      <CommentsList
-        comments={comments}
-        auth={auth}
-        setComments={setComments}
-        url={url}
-        setCount={setCount}
-        t={t}
-      />
-
-      <CommentForm
-        auth={auth}
-        setComments={setComments}
-        url={url}
-        t={t}
-        setCount={setCount}
-      />
+      <CommentsList url={url} t={t} />
+      <CommentForm url={url} t={t} />
     </div>
   );
 };

@@ -23,7 +23,7 @@ const deleteComment = async (req, res, next) => {
   }
 
   if (isOwn && req.body.authKey === isOwn.User.authKey) {
-    await prisma.comment.update({
+    let meta = await prisma.comment.update({
       where: {
         id: req.body.id,
       },
@@ -31,8 +31,14 @@ const deleteComment = async (req, res, next) => {
         comment: "",
         deleted: 1,
       },
+      select: {
+        parent_id: true,
+      },
     });
-    return res.send({ success: true, id: req.body.id });
+    meta.success = true;
+    meta.id = req.body.id;
+
+    return res.send(meta);
   } else {
     return res.send({ success: false });
   }
@@ -381,6 +387,7 @@ const voteComment = async (req, res, next) => {
           id: true,
           votesUp: true,
           votesDown: true,
+          parent_id: true,
         },
       });
 
@@ -399,6 +406,7 @@ const voteComment = async (req, res, next) => {
           id: true,
           votesUp: true,
           votesDown: true,
+          parent_id: true,
         },
       });
       break;
@@ -416,7 +424,9 @@ const voteComment = async (req, res, next) => {
     },
   });
 
-  return res.send({ success: vreturn });
+  vreturn.success = true;
+
+  return res.send(vreturn);
 };
 
 module.exports = {

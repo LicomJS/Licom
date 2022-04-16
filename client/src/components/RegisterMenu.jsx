@@ -5,8 +5,12 @@ import LoadingBtn from "./LoadingBtn";
 import { ClientJS } from "clientjs";
 import ErrorDiv from "./ErrorDiv";
 
+import { useDispatch } from "react-redux";
+import { setAuth } from "./../_actions";
+
 // eslint-disable-next-line react/prop-types
-const RegisterMenu = ({ setAuth, t }) => {
+const RegisterMenu = ({ t }) => {
+  const dispatch = useDispatch();
   const [login, setLogin] = useState("");
   const [key, setKey] = useState("");
   const [error, setError] = useState("");
@@ -64,8 +68,7 @@ const RegisterMenu = ({ setAuth, t }) => {
           };
 
           setLoading(false);
-          localStorage.setItem("licom", JSON.stringify(l));
-          setAuth(l);
+          dispatch(setAuth(l));
           setError("");
         } else {
           setLoading(false);

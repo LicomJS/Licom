@@ -29,3 +29,4 @@ yarn-error.log*
 /client/src/App2.jsx
 /server/.env
 /server/prisma/migrations
+*.bak.*

@@ -3,8 +3,12 @@ import { signMessage, privateToPublic } from "ed25519-keys";
 import axios from "axios";
 import ErrorDiv from "./ErrorDiv";
 
+import { useDispatch } from "react-redux";
+import { setAuth } from "./../_actions";
+
 // eslint-disable-next-line react/prop-types
-const LoginMenu = ({ setAuth, t }) => {
+const LoginMenu = ({ t }) => {
+  const dispatch = useDispatch();
   const [error, setError] = useState("");
   const keyRef = useRef();
 
@@ -30,8 +34,7 @@ const LoginMenu = ({ setAuth, t }) => {
               publicKey: res.data.publicKey,
               privateKey: keyRef.current.value,
             };
-            localStorage.setItem("licom", JSON.stringify(l));
-            setAuth(l);
+            dispatch(setAuth(l));
             setError("");
           } else {
             setError(res.data.error);

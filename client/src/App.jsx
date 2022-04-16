@@ -4,20 +4,18 @@ import LoginMenu from "./components/LoginMenu";
 import RegisterMenu from "./components/RegisterMenu";
 import { useTranslation } from "react-i18next";
 
+import { useSelector, useDispatch } from "react-redux";
+import { deleteAuth } from "./_actions";
+
 const App = () => {
-  const [auth, setAuth] = useState();
-  const [page, setPage] = useState("");
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
+
+  const [page, setPage] = useState("");
 
   const query = new URLSearchParams(window.location.search);
   const url = query.get("url");
-
-  if (!auth) {
-    const l = JSON.parse(localStorage.getItem("licom"));
-    if (l && l.login && l.authKey && l.publicKey && l.privateKey) {
-      setAuth(l);
-    }
-  }
 
   return (
     <div>
@@ -41,8 +39,7 @@ const App = () => {
                           if (
                             window.confirm(t("Do you really want to logout?"))
                           ) {
-                            localStorage.removeItem("licom");
-                            setAuth("");
+                            dispatch(deleteAuth(""));
                             setPage("");
                           }
                         }}
@@ -51,7 +48,7 @@ const App = () => {
                       </button>
                     </div>
 
-                    {url && <Comments url={url} auth={auth} />}
+                    {url && <Comments url={url} />}
                   </>
                 ) : (
                   <div>
@@ -72,10 +69,8 @@ const App = () => {
                       </button>
                     </div>
 
-                    {page === "login" && <LoginMenu setAuth={setAuth} t={t} />}
-                    {page === "register" && (
-                      <RegisterMenu setAuth={setAuth} t={t} />
-                    )}
+                    {page === "login" && <LoginMenu t={t} />}
+                    {page === "register" && <RegisterMenu t={t} />}
                   </div>
                 )}
               </div>

@@ -3,10 +3,17 @@ import React, { useState, useRef } from "react";
 import ErrorDiv from "./ErrorDiv";
 import axios from "axios";
 import { signMessage } from "ed25519-keys";
+import { useTranslation } from "react-i18next";
 
-const CommentForm = ({ auth, setComments, url, setCount, t, parent_id }) => {
+import { useSelector, useDispatch } from "react-redux";
+import { addComment, addSubComment, addCount } from "./../_actions";
+
+const CommentForm = ({ setReply, url, parent_id }) => {
   const [commentLength, setCommentLength] = useState(0);
   const [error, setError] = useState("");
+  const auth = useSelector((state) => state.auth);
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
   const msgRef = useRef();
 
   const postComment = () => {
@@ -25,11 +32,17 @@ const CommentForm = ({ auth, setComments, url, setCount, t, parent_id }) => {
         },
       }).then((res) => {
         if (res.data.meta) {
-          setComments((prev) => [...prev, res.data.meta]);
+          if (res.data.meta.parent_id !== null) {
+            dispatch(addSubComment(res.data.meta));
+          } else {
+            dispatch(addComment(res.data.meta));
+          }
+
           msgRef.current.value = "";
-          setCount((prev) => prev + 1);
+          dispatch(addCount(1));
           setError("");
           setCommentLength(0);
+          setReply && setReply(0);
         } else {
           setError(res.data.error);
         }
@@ -38,8 +51,8 @@ const CommentForm = ({ auth, setComments, url, setCount, t, parent_id }) => {
   };
 
   return (
-    <div className="flex mx-auto items-center justify-center dark:shadow-none shadow-lg mt-5">
-      <div className="w-full mt-4 dark:bg-transparent bg-white rounded-lg px-4 pt-2">
+    <div className="flex mx-auto items-center justify-center dark:shadow-none shadow-lg">
+      <div className="w-full dark:bg-transparent bg-white rounded-lg px-4 pt-2">
         <div className="flex flex-wrap -mx-3 mb-6">
           <h2 className="px-4 pt-3 pb-2 dark:text-gray-100 text-gray-800 text-lg">
             {t("Add a new comment")}
