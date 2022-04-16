@@ -6,6 +6,8 @@ import { useTranslation } from "react-i18next";
 
 import { useSelector, useDispatch } from "react-redux";
 import { deleteAuth } from "./_actions";
+import i18next from "i18next";
+import moment from "moment";
 
 const App = () => {
   const { t } = useTranslation();
@@ -32,6 +34,19 @@ const App = () => {
                           {t("Hello")}, {auth.login}!
                         </div>
                       </div>
+
+                      <select
+                        onChange={(e) => {
+                          i18next
+                            .changeLanguage(e.target.value)
+                            .then(moment.locale(e.target.value));
+                        }}
+                      >
+                        <option value="en">English</option>
+                        <option value="de">Deutsch</option>
+                        <option value="pl">Polski</option>
+                        <option value="nl">Nederlands</option>
+                      </select>
 
                       <button
                         className="dark:text-white underline"

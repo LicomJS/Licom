@@ -4,6 +4,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import english from "./locales/en/translation.json";
 import polish from "./locales/pl/translation.json";
 import germany from "./locales/de/translation.json";
+import dutch from "./locales/nl/translation.json";
 import moment from "moment";
 import "moment/min/locales";
 
@@ -20,6 +21,9 @@ i18n
       },
       de: {
         translation: germany,
+      },
+      nl: {
+        translation: dutch,
       },
     },
     fallbackLng: "en",
