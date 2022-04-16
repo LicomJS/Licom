@@ -25,18 +25,47 @@ export const comments = (state = [], action) => {
   switch (action.type) {
     case "SET_COMMENTS":
       return action.payload;
+
     case "ADD_COMMENT":
       return [...state, action.payload];
+
     case "ADD_SUB_COMMENT":
       return state.map((x) =>
         x.id === action.payload.parent_id
           ? { ...x, Children: [...x.Children, action.payload] }
           : x
       );
+
+    case "EDIT_COMMENT":
+      return state.map((x) =>
+        x.id === action.payload.id
+          ? {
+              ...x,
+              comment: action.payload.comment,
+            }
+          : x
+      );
+
+    case "EDIT_SUB_COMMENT":
+      const editSubComment = state.map((comment) => {
+        if (comment.id !== action.payload.parent_id) return comment;
+
+        const updatedSubComments = comment.Children.map((subComment) => {
+          if (subComment.id !== action.payload.id) return subComment;
+
+          return { ...subComment, comment: action.payload.comment };
+        });
+
+        return { ...comment, Children: updatedSubComments };
+      });
+
+      return editSubComment;
+
     case "DELETE_COMMENT":
       return state.map((x) =>
         x.id === action.payload ? { ...x, deleted: 1 } : x
       );
+
     case "DELETE_SUB_COMMENT":
       const deleteSubComment = state.map((comment) => {
         if (comment.id !== action.payload.parent_id) return comment;
@@ -62,6 +91,7 @@ export const comments = (state = [], action) => {
             }
           : x
       );
+
     case "VOTE_SUB_COMMENT":
       const voteSubComment = state.map((comment) => {
         if (comment.id !== action.payload.parent_id) return comment;

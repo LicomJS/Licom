@@ -75,3 +75,17 @@ export const addCount = (msg) => {
   };
 };
 //
+export const editComment = (msg) => {
+  return {
+    type: "EDIT_COMMENT",
+    payload: msg,
+  };
+};
+//
+export const editSubComment = (msg) => {
+  return {
+    type: "EDIT_SUB_COMMENT",
+    payload: msg,
+  };
+};
+//

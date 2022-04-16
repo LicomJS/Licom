@@ -6,9 +6,15 @@ import { signMessage } from "ed25519-keys";
 import { useTranslation } from "react-i18next";
 
 import { useSelector, useDispatch } from "react-redux";
-import { addComment, addSubComment, addCount } from "./../_actions";
+import {
+  addComment,
+  addSubComment,
+  addCount,
+  editComment,
+  editSubComment,
+} from "./../_actions";
 
-const CommentForm = ({ setReply, url, parent_id, type = "" }) => {
+const CommentForm = ({ setOpenForm, url, parent_id, comment, type = "" }) => {
   const [commentLength, setCommentLength] = useState(0);
   const [error, setError] = useState("");
   const auth = useSelector((state) => state.auth);
@@ -21,14 +27,17 @@ const CommentForm = ({ setReply, url, parent_id, type = "" }) => {
 
     signMessage(msgRef.current.value, auth.privateKey).then((signature) => {
       axios({
-        method: "post",
-        url: process.env.REACT_APP_API_SERVER + "/api/comment",
+        method: type === "edit" ? "patch" : "post",
+        url:
+          process.env.REACT_APP_API_SERVER +
+          `/api/${type === "edit" ? "edit" : "comment"}`,
         data: {
           authKey: auth.authKey,
           url,
           comment: msgRef.current.value,
           signature,
           parent_id,
+          id: comment ? comment.id : undefined,
         },
       }).then((res) => {
         if (res.data.meta) {
@@ -38,14 +47,27 @@ const CommentForm = ({ setReply, url, parent_id, type = "" }) => {
             dispatch(addComment(res.data.meta));
           }
 
-          msgRef.current.value = "";
           dispatch(addCount(1));
           setError("");
-          setCommentLength(0);
-          setReply && setReply(0);
-        } else {
+        }
+
+        if (res.data.edit) {
+          if (res.data.edit.parent_id !== null) {
+            dispatch(editSubComment(res.data.edit));
+          } else {
+            dispatch(editComment(res.data.edit));
+          }
+
+          setError("");
+        }
+
+        if (res.data.error) {
           setError(res.data.error);
         }
+
+        msgRef.current.value = "";
+        setCommentLength(0);
+        setOpenForm && setOpenForm(0);
       });
     });
   };
@@ -55,7 +77,11 @@ const CommentForm = ({ setReply, url, parent_id, type = "" }) => {
       <div className="w-full dark:bg-transparent bg-white rounded-lg px-4 pt-2">
         <div className="flex flex-wrap -mx-3 mb-6">
           <h2 className="px-4 pt-3 pb-2 dark:text-gray-100 text-gray-800 text-lg">
-            {type === "reply" ? t("Add a new reply") : t("Add a new comment")}
+            {type === "reply"
+              ? t("Add a new reply")
+              : type === "edit"
+              ? t("Edit your comment")
+              : t("Add a new comment")}
           </h2>
           <div className="w-full md:w-full px-3 mb-2 mt-2">
             <textarea
@@ -63,6 +89,7 @@ const CommentForm = ({ setReply, url, parent_id, type = "" }) => {
               className="dark:bg-gray-400 bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium dark:placeholder-gray-500 placeholder-gray-700 focus:outline-none focus:bg-white"
               placeholder={t("Type Your Comment")}
               required
+              defaultValue={type === "edit" ? comment.comment : null}
               maxLength={3000}
               onChange={(e) => {
                 setCommentLength(e.target.value.length);
@@ -96,7 +123,11 @@ const CommentForm = ({ setReply, url, parent_id, type = "" }) => {
                 className="dark:bg-blue-600 dark:text-white dark:border-blue-700 bg-white text-gray-700 font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 dark:bg-blue-600:hover:bg-gray-100"
                 onClick={postComment}
               >
-                {type === "reply" ? t("Post Reply") : t("Post Comment")}
+                {type === "reply"
+                  ? t("Post Reply")
+                  : type === "edit"
+                  ? t("Save Comment")
+                  : t("Post Comment")}
               </button>
             </div>
           </div>

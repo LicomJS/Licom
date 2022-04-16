@@ -54,6 +54,10 @@ srv.del("/api/comment", async (req, res, next) => {
   deleteComment(req, res, next);
 });
 
+srv.patch("/api/edit", async (req, res, next) => {
+  postComments(req, res, next, "edit");
+});
+
 srv.post("/api/vote", async (req, res, next) => {
   voteComment(req, res, next);
 });

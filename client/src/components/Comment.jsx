@@ -16,7 +16,7 @@ import {
 
 const Comment = ({ comment, url, type = "" }) => {
   const [error, setError] = useState("");
-  const [reply, setReply] = useState(0);
+  const [openForm, setOpenForm] = useState(0);
   const { t } = useTranslation();
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -125,33 +125,54 @@ const Comment = ({ comment, url, type = "" }) => {
             {comment.deleted !== 1 && type !== "child" && (
               <button
                 className="mr-3 text-xs"
-                onClick={() => {
-                  setReply((prev) => (prev !== comment.id ? comment.id : 0));
-                }}
+                onClick={() =>
+                  setOpenForm((prev) =>
+                    !prev || prev.comment.id !== comment.id
+                      ? { comment, type: "reply" }
+                      : 0
+                  )
+                }
               >
                 {t("reply")}
               </button>
             )}
             {comment.userLogin === auth.login && comment.deleted !== 1 && (
-              <button
-                className="text-xs"
-                onClick={() => deleteCommentApi(comment)}
-              >
-                {t("delete")}
-              </button>
+              <>
+                <button
+                  className="mr-3 text-xs"
+                  onClick={() =>
+                    setOpenForm((prev) =>
+                      !prev || prev.comment.id !== comment.id
+                        ? { comment, type: "edit" }
+                        : 0
+                    )
+                  }
+                >
+                  {t("edit")}
+                </button>
+                <button
+                  className="text-xs"
+                  onClick={() => deleteCommentApi(comment)}
+                >
+                  {t("delete")}
+                </button>
+              </>
             )}
           </div>
 
-          {reply === comment.id && (
+          {openForm && openForm.comment.id === comment.id ? (
             <div className="dark:bg-gray-800 rounded-lg m-5">
               <CommentForm
-                setReply={setReply}
+                setOpenForm={setOpenForm}
                 url={url}
                 t={t}
                 parent_id={comment.id}
-                type="reply"
+                type={openForm.type}
+                comment={comment}
               />
             </div>
+          ) : (
+            ""
           )}
         </div>
         {error && error.id === comment.id && <ErrorDiv error={error.error} />}

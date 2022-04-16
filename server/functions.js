@@ -201,7 +201,7 @@ const registerUser = async (req, res, next) => {
   );
 };
 
-const postComments = async (req, res, next) => {
+const postComments = async (req, res, next, type = "") => {
   const commentMsg = req.body.comment.trim();
 
   if (req.body.url.length < 1 || req.body.url.length > 2000) {
@@ -235,47 +235,72 @@ const postComments = async (req, res, next) => {
     return res.send({ error: "E-9" });
   }
 
+  if (type === "edit") {
+    // check if comment belongs to user and is not deleted
+    const comment = await prisma.comment.findFirst({
+      where: {
+        id: req.body.id,
+      },
+    });
+
+    if (comment.userLogin !== user.login || comment.deleted !== 0) {
+      // Error. Please try again.
+      return res.send({ error: "E-2" });
+    }
+  }
+
   verifyMessage(req.body.comment, req.body.signature, user.publicKey).then(
     async (verify) => {
       if (verify) {
         if (user.login) {
           const url = req.body.url.trim();
 
-          await prisma.webpage.upsert({
-            where: {
-              url,
-            },
-            create: {
-              url,
-              count: 1,
-            },
-            update: {
-              count: {
-                increment: 1,
+          if (type !== "edit") {
+            await prisma.webpage.upsert({
+              where: {
+                url,
               },
-            },
-          });
-
-          const comment = await prisma.comment.create({
-            data: {
-              webpageUrl: url,
-              comment: commentMsg,
-              userLogin: user.login,
-              parent_id: req.body.parent_id,
-            },
-            // include: {
-            //   Children: true,
-            // },
-            include: {
-              Children: {
-                include: {
-                  Children: true,
+              create: {
+                url,
+                count: 1,
+              },
+              update: {
+                count: {
+                  increment: 1,
                 },
               },
-            },
-          });
+            });
+          }
 
-          res.send({ meta: comment });
+          let comment;
+          if (type === "edit") {
+            comment = await prisma.comment.update({
+              where: {
+                id: req.body.id,
+              },
+              data: {
+                comment: commentMsg,
+              },
+            });
+            return res.send({ edit: comment });
+          } else {
+            comment = await prisma.comment.create({
+              data: {
+                webpageUrl: url,
+                comment: commentMsg,
+                userLogin: user.login,
+                parent_id: req.body.parent_id,
+              },
+              include: {
+                Children: {
+                  include: {
+                    Children: true,
+                  },
+                },
+              },
+            });
+            return res.send({ meta: comment });
+          }
         }
       } else {
         // Signature not match, please try again.
