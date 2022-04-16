@@ -121,10 +121,10 @@ const Comment = ({ comment, url, type = "" }) => {
           )}
         </p>
         <div className="mt-1 flex items-center">
-          <div className="text-sm text-gray-600 font-semibold">
-            {comment.deleted !== 1 && type !== "child" && (
+          <div className="flex text-sm text-gray-600 font-semibold">
+            {comment.deleted !== 1 && type !== "child" && !openForm.type && (
               <button
-                className="mr-3 text-xs"
+                className="mr-2 text-xs"
                 onClick={() =>
                   setOpenForm((prev) =>
                     !prev || prev.comment.id !== comment.id
@@ -136,28 +136,30 @@ const Comment = ({ comment, url, type = "" }) => {
                 {t("reply")}
               </button>
             )}
-            {comment.userLogin === auth.login && comment.deleted !== 1 && (
-              <>
-                <button
-                  className="mr-3 text-xs"
-                  onClick={() =>
-                    setOpenForm((prev) =>
-                      !prev || prev.comment.id !== comment.id
-                        ? { comment, type: "edit" }
-                        : 0
-                    )
-                  }
-                >
-                  {t("edit")}
-                </button>
-                <button
-                  className="text-xs"
-                  onClick={() => deleteCommentApi(comment)}
-                >
-                  {t("delete")}
-                </button>
-              </>
-            )}
+            {comment.userLogin === auth.login &&
+              comment.deleted !== 1 &&
+              !openForm.type && (
+                <>
+                  <button
+                    className="mr-2 text-xs"
+                    onClick={() =>
+                      setOpenForm((prev) =>
+                        !prev || prev.comment.id !== comment.id
+                          ? { comment, type: "edit" }
+                          : 0
+                      )
+                    }
+                  >
+                    {t("edit")}
+                  </button>
+                  <button
+                    className="text-xs"
+                    onClick={() => deleteCommentApi(comment)}
+                  >
+                    {t("delete")}
+                  </button>
+                </>
+              )}
           </div>
 
           {openForm && openForm.comment.id === comment.id ? (

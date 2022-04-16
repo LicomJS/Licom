@@ -4,6 +4,7 @@ import ErrorDiv from "./ErrorDiv";
 import axios from "axios";
 import { signMessage } from "ed25519-keys";
 import { useTranslation } from "react-i18next";
+import CloseBtn from "./CloseBtn";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -73,7 +74,17 @@ const CommentForm = ({ setOpenForm, url, parent_id, comment, type = "" }) => {
   };
 
   return (
-    <div className="flex mx-auto items-center justify-center dark:shadow-none shadow-lg">
+    <div className="flex mx-auto items-center justify-center dark:shadow-none shadow-lg relative">
+      {(type === "edit" || type === "reply") && (
+        <div
+          className="absolute dark:text-gray-300 text-gray-500"
+          style={{ top: 1, right: 1, cursor: "pointer" }}
+          onClick={() => setOpenForm(0)}
+        >
+          <CloseBtn />
+        </div>
+      )}
+
       <div className="w-full dark:bg-transparent bg-white rounded-lg px-4 pt-2">
         <div className="flex flex-wrap -mx-3 mb-6">
           <h2 className="px-4 pt-3 pb-2 dark:text-gray-100 text-gray-800 text-lg">
