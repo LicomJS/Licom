@@ -132,18 +132,16 @@ const Comment = ({ comment, url, type = "" }) => {
                   ? comment.comment
                   : ellipsisStr(comment.comment)}
               </span>
-              <span>
-                {comment.comment.length > 200 && showMore !== comment.id && (
-                  <span
-                    className="pl-2 underline font-size-lg cursor-pointer"
-                    onClick={() => {
-                      setShowMore(comment.id);
-                    }}
-                  >
-                    {t("Show more")}
-                  </span>
-                )}
-              </span>
+              {comment.comment.length > 200 && showMore !== comment.id && (
+                <span
+                  className="pl-2 underline font-size-lg cursor-pointer"
+                  onClick={() => {
+                    setShowMore(comment.id);
+                  }}
+                >
+                  {t("Show more")}
+                </span>
+              )}
             </>
           )}
         </p>
