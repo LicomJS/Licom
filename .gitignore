@@ -26,7 +26,5 @@ yarn-error.log*
 
 /client/build
 /client/dist
-/client/src/App2.jsx
 /server/.env
 /server/prisma/migrations
-*.bak.*
