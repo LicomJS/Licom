@@ -128,10 +128,9 @@ const CommentForm = ({ setOpenForm, url, parent_id, comment, type = "" }) => {
               </p>
             </div>
             <div className="-mr-1">
-              {/* fixme dark:bg-blue-600:hover:bg-gray-100 */}
               <button
                 disabled={commentLength > 3000 ? true : false}
-                className="dark:bg-blue-600 dark:text-white dark:border-blue-700 bg-white text-gray-700 font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 dark:bg-blue-600:hover:bg-gray-100"
+                className="dark:bg-blue-600 dark:text-white dark:border-blue-700 bg-white text-gray-700 font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 dark:bg-blue-600"
                 onClick={postComment}
               >
                 {type === "reply"
