@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import { addComment, addSubComment, addCount } from "./../_actions";
 
-const CommentForm = ({ setReply, url, parent_id }) => {
+const CommentForm = ({ setReply, url, parent_id, type = "" }) => {
   const [commentLength, setCommentLength] = useState(0);
   const [error, setError] = useState("");
   const auth = useSelector((state) => state.auth);
@@ -55,7 +55,7 @@ const CommentForm = ({ setReply, url, parent_id }) => {
       <div className="w-full dark:bg-transparent bg-white rounded-lg px-4 pt-2">
         <div className="flex flex-wrap -mx-3 mb-6">
           <h2 className="px-4 pt-3 pb-2 dark:text-gray-100 text-gray-800 text-lg">
-            {t("Add a new comment")}
+            {type === "reply" ? t("Add a new reply") : t("Add a new comment")}
           </h2>
           <div className="w-full md:w-full px-3 mb-2 mt-2">
             <textarea
@@ -96,7 +96,7 @@ const CommentForm = ({ setReply, url, parent_id }) => {
                 className="dark:bg-blue-600 dark:text-white dark:border-blue-700 bg-white text-gray-700 font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 dark:bg-blue-600:hover:bg-gray-100"
                 onClick={postComment}
               >
-                {t("Post Comment")}
+                {type === "reply" ? t("Post Reply") : t("Post Comment")}
               </button>
             </div>
           </div>

@@ -149,6 +149,7 @@ const Comment = ({ comment, url, type = "" }) => {
                 url={url}
                 t={t}
                 parent_id={comment.id}
+                type="reply"
               />
             </div>
           )}
