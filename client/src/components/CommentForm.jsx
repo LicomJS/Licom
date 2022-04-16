@@ -84,7 +84,7 @@ const CommentForm = ({ setOpenForm, url, parent_id, comment, type = "" }) => {
           <CloseBtn />
         </div>
       )}
-
+      <div id="form"></div>
       <div className="w-full mt-3 dark:bg-transparent bg-white rounded-lg px-4 pt-2">
         <div className="flex flex-wrap -mx-3 mb-6">
           <h2 className="px-4 pt-3 pb-2 dark:text-gray-100 text-gray-800 text-lg">
