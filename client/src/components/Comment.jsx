@@ -140,7 +140,7 @@ const Comment = ({ comment, url, type = "" }) => {
                       setShowMore(comment.id);
                     }}
                   >
-                    Show more
+                    {t("Show more")}
                   </span>
                 )}
               </span>
