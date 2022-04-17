@@ -6,7 +6,7 @@
   "description": "Licom",
   "permissions": ["tabs"],
   "icons": {
-    "512": "logo512.png"
+    "512": "licom.png"
   },
   "background": {
     "service_worker": "background.js"
