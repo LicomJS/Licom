@@ -5,6 +5,7 @@ import ErrorDiv from "./ErrorDiv";
 import axios from "axios";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
+import Ellipsis from "./Ellipsis";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -17,18 +18,9 @@ import {
 const Comment = ({ comment, url, type = "" }) => {
   const [error, setError] = useState("");
   const [openForm, setOpenForm] = useState(0);
-  const [showMore, setShowMore] = useState("");
   const { t } = useTranslation();
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
-  const ellipsisStr = (str) => {
-    if (str.length > 200) {
-      return str.slice(0, 200) + "...";
-    } else {
-      return str;
-    }
-  };
 
   const deleteCommentApi = (comment) => {
     if (window.confirm(t("Do you really want to delete this comment?"))) {
@@ -126,23 +118,14 @@ const Comment = ({ comment, url, type = "" }) => {
           {comment.deleted === 1 ? (
             <em>{t("Comment deleted by author")}</em>
           ) : (
-            <>
-              <span>
-                {showMore === comment.id
-                  ? comment.comment
-                  : ellipsisStr(comment.comment)}
-              </span>
-              {comment.comment.length > 200 && showMore !== comment.id && (
-                <span
-                  className="pl-2 underline font-size-lg cursor-pointer"
-                  onClick={() => {
-                    setShowMore(comment.id);
-                  }}
-                >
-                  {t("Show more")}
-                </span>
-              )}
-            </>
+            <Ellipsis
+              ellipsis="..."
+              label={t("Show more")}
+              id={comment.id}
+              text={comment.comment}
+              limit={200}
+              class="pl-2 underline font-size-lg cursor-pointer"
+            />
           )}
         </p>
         <div className="mt-1 flex items-center">

@@ -73,6 +73,10 @@ const App = () => {
 
                     {page === "login" && <LoginMenu t={t} />}
                     {page === "register" && <RegisterMenu t={t} />}
+
+                    {/* <h2 className="bg-blue-200 border border-green-400 text-blue-900 p-3 m-20 text-center rounded">
+                      World without comments would b flat
+                    </h2> */}
                   </div>
                 )}
               </div>
