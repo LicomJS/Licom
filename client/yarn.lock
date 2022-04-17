@@ -7212,6 +7212,11 @@ react-scripts@5.0.0:
   optionalDependencies:
     fsevents "^2.3.2"
 
+react-simple-ellipsis@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-simple-ellipsis/-/react-simple-ellipsis-1.0.0.tgz#4a90694793410feaa7e8cdb757936b411d1552c7"
+  integrity sha512-fKh8/KG1QreyhIc9k7yUujZGArGp/XKuQBvMI20XbLlIPjCz1YBZNWuWcyI0HUMzjcrMN0A+7/YUQaTv6qQCHg==
+
 react@^18.0.0:
   version "18.0.0"
   resolved "https://registry.yarnpkg.com/react/-/react-18.0.0.tgz#b468736d1f4a5891f38585ba8e8fb29f91c3cb96"
