@@ -5,7 +5,7 @@ import ErrorDiv from "./ErrorDiv";
 import axios from "axios";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
-import { Ellipsis } from "react-simple-ellipsis";
+import { Ellipsis, EllipsisMode } from "react-simple-ellipsis";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -124,6 +124,7 @@ const Comment = ({ comment, url, type = "" }) => {
               id={comment.id}
               text={comment.comment}
               limit={200}
+              mode={EllipsisMode.InPlace}
               class="pl-2 underline font-size-lg cursor-pointer"
             />
           )}
