@@ -133,7 +133,9 @@ const Comment = ({ comment, url, type = "" }) => {
             </>
           )}
         </p>
-        <div className="mt-1 flex items-center">
+        <div
+          className={`mt-1 flex items-center ${type !== "child" ? "mb-1" : ""}`}
+        >
           <div className="flex text-sm text-gray-600 font-semibold">
             {comment.deleted !== 1 && type !== "child" && !openForm.type && (
               <button

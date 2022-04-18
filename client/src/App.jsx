@@ -92,10 +92,12 @@ const App = () => {
                 <select
                   style={{ float: "right" }}
                   onChange={(e) => {
-                    if (e.target.value !== "none")
+                    if (e.target.value !== "none") {
                       i18next
                         .changeLanguage(e.target.value)
                         .then(moment.locale(e.target.value));
+                      setShowLanguages(false);
+                    }
                   }}
                 >
                   <option value="none">-select language-</option>
