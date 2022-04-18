@@ -60,7 +60,7 @@ const Comments = ({ url }) => {
     <div>
       <div className="flex flex-col items-center justify-between">
         <div className="bg-white dark:bg-gray-600 w-full text-teal text-sm rounded-lg shadow-md px-4 py-2 m-3 border-1 border-gray-400">
-          <span className="inline-flex bg-gray-700 text-white rounded-full h-6 px-3 justify-center items-center">
+          <span className="w-full inline-flex bg-gray-700 text-white rounded-full h-6 px-3">
             <strong>{t("Page")}:</strong>
             <span className="ml-2">{url}</span>
           </span>

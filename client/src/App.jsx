@@ -13,7 +13,7 @@ const App = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
-
+  const [showLanguages, setShowLanguages] = useState(false);
   const [page, setPage] = useState("");
 
   const query = new URLSearchParams(window.location.search);
@@ -80,23 +80,32 @@ const App = () => {
                   </div>
                 )}
               </div>
-              <select
-                className="mt-10"
+
+              <span
+                className="dark:text-gray-500 cursor-pointer"
                 style={{ float: "right" }}
-                onChange={(e) => {
-                  if (e.target.value !== "none")
-                    i18next
-                      .changeLanguage(e.target.value)
-                      .then(moment.locale(e.target.value));
-                }}
+                onClick={() => setShowLanguages((prev) => !prev)}
               >
-                <option value="none">-select language-</option>
-                <option value="en">English</option>
-                <option value="de">Deutsch</option>
-                <option value="pl">Polski</option>
-                <option value="nl">Nederlands</option>
-                <option value="fr">French</option>
-              </select>
+                Language
+              </span>
+              {showLanguages && (
+                <select
+                  style={{ float: "right" }}
+                  onChange={(e) => {
+                    if (e.target.value !== "none")
+                      i18next
+                        .changeLanguage(e.target.value)
+                        .then(moment.locale(e.target.value));
+                  }}
+                >
+                  <option value="none">-select language-</option>
+                  <option value="en">English</option>
+                  <option value="de">Deutsch</option>
+                  <option value="pl">Polski</option>
+                  <option value="nl">Nederlands</option>
+                  <option value="fr">French</option>
+                </select>
+              )}
             </div>
           </div>
         </div>

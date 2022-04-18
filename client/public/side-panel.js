@@ -17,6 +17,7 @@ iframe.style.right = "0px";
 iframe.style.zIndex = "9000000000000000000";
 iframe.style.border = "0px";
 iframe.style.borderLeft = "1px solid #ccc";
+iframe.style.transition = "left 0.2s";
 
 function toggle(url) {
   if (iframe.style.width == "0px") {

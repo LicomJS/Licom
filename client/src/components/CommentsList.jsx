@@ -15,7 +15,7 @@ const CommentsList = ({ url }) => {
       {/* max-w-screen-sm */}
       {comments.length > 5 && anchor === 0 && (
         <a
-          className="absolute p-1 m-2 dark:bg-white rounded-lg"
+          className="absolute p-1 m-2 dark:bg-white px-2 py-1 text-gray-700 bg-gray-200 rounded-md hover:bg-teal-400 hover:text-white text-teal text-sm"
           style={{ bottom: 0, left: 0 }}
           href="#form"
           onClick={() => setAnchor(1)}
