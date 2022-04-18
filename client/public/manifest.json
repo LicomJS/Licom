@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "manifest_version": 3,
   "description": "Licom",
-  "permissions": ["tabs"],
+  "permissions": ["activeTab"],
   "icons": {
     "512": "licom.png"
   },
