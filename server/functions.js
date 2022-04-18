@@ -333,7 +333,13 @@ const getComments = async (req, res, next) => {
     },
   });
 
+  let pageInt = req.body.page ? Number(req.body.page) : 0;
+  let itemsPerPage = 30;
+
   const comments = await prisma.comment.findMany({
+    skip: pageInt * itemsPerPage,
+    take: itemsPerPage,
+
     where: {
       webpageUrl: req.body.url,
       parent_id: null,
@@ -349,11 +355,15 @@ const getComments = async (req, res, next) => {
       },
     },
     orderBy: {
-      id: "asc",
+      // id: "asc",
+      id: "desc",
     },
   });
 
-  res.send({ meta: comments, page: page === null ? { count: 0 } : page });
+  res.send({
+    meta: comments.reverse(),
+    page: page === null ? { count: 0 } : page,
+  });
 
   return next();
 };

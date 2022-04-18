@@ -29,6 +29,9 @@ export const comments = (state = [], action) => {
     case "ADD_COMMENT":
       return [...state, action.payload];
 
+    case "LOAD_OLDER_COMMENTS":
+      return action.payload.concat(state);
+
     case "ADD_SUB_COMMENT":
       return state.map((x) =>
         x.id === action.payload.parent_id

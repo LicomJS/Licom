@@ -89,3 +89,10 @@ export const editSubComment = (msg) => {
   };
 };
 //
+export const loadOlderComments = (msg) => {
+  return {
+    type: "LOAD_OLDER_COMMENTS",
+    payload: msg,
+  };
+};
+//

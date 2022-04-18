@@ -118,15 +118,19 @@ const Comment = ({ comment, url, type = "" }) => {
           {comment.deleted === 1 ? (
             <em>{t("Comment deleted by author")}</em>
           ) : (
-            <Ellipsis
-              ellipsis="..."
-              label={t("Show more")}
-              id={comment.id}
-              text={comment.comment}
-              limit={200}
-              mode={EllipsisMode.InPlace}
-              class="pl-2 underline font-size-lg cursor-pointer"
-            />
+            <>
+              {comment.comment && (
+                <Ellipsis
+                  ellipsis="..."
+                  label={t("Show more")}
+                  id={comment.id}
+                  text={comment.comment}
+                  limit={200}
+                  mode={EllipsisMode.InPlace}
+                  class="pl-2 underline font-size-lg cursor-pointer"
+                />
+              )}
+            </>
           )}
         </p>
         <div className="mt-1 flex items-center">
