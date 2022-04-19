@@ -5,7 +5,8 @@
 }
 
 @media (max-width: 40rem) {
-  .row {
+  .row,
+  footer {
     display: flex;
     flex-direction: column !important;
   }
@@ -51,10 +52,17 @@ span {
 }
 
 footer {
+  margin-top: 30px;
   padding: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+footer p {
+  margin: 20px;
+  padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
 }
 
 .container {
