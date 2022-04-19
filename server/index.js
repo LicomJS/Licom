@@ -30,9 +30,13 @@ srv.post("/api/checklogin", async (req, res, next) => {
   checkLogin(req, res, next);
 });
 
-// srv.post("/api/auth", (req, res, next) => {
-//   authUser(req, res, next);
-// });
+srv.get(
+  "/*",
+  restify.plugins.serveStatic({
+    directory: "./docs",
+    default: "index.html",
+  })
+);
 
 srv.post("/api/register", (req, res, next) => {
   registerUser(req, res, next);
