@@ -12,6 +12,11 @@ const LoginMenu = ({ t }) => {
   const [error, setError] = useState("");
   const keyRef = useRef();
 
+  const API_URL =
+    process.env.NODE_ENV === "development"
+      ? process.env.REACT_APP_API_LOCAL_SERVER
+      : process.env.REACT_APP_API_SERVER;
+
   const loginApi = () => {
     if (!keyRef.current.value) return;
 
@@ -20,7 +25,7 @@ const LoginMenu = ({ t }) => {
       signMessage(signIt, keyRef.current.value).then((signature) => {
         axios({
           method: "post",
-          url: process.env.REACT_APP_API_SERVER + "/api/login",
+          url: API_URL + "/api/login",
           data: {
             sign: signIt,
             signature,

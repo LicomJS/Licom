@@ -23,10 +23,15 @@ const Comments = ({ url }) => {
 
   useEffect(() => {
     if (loaded.current === false) {
+      const API_URL =
+        process.env.NODE_ENV === "development"
+          ? process.env.REACT_APP_API_LOCAL_SERVER
+          : process.env.REACT_APP_API_SERVER;
+
       setLoading(true);
       axios({
         method: "post",
-        url: process.env.REACT_APP_API_SERVER + "/api/getcomments",
+        url: API_URL + "/api/getcomments",
         data: {
           url,
           authKey: auth.authKey,

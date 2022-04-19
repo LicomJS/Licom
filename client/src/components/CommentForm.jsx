@@ -26,12 +26,15 @@ const CommentForm = ({ setOpenForm, url, parent_id, comment, type = "" }) => {
   const postComment = () => {
     if (!msgRef.current.value) return;
 
+    const API_URL =
+      process.env.NODE_ENV === "development"
+        ? process.env.REACT_APP_API_LOCAL_SERVER
+        : process.env.REACT_APP_API_SERVER;
+
     signMessage(msgRef.current.value, auth.privateKey).then((signature) => {
       axios({
         method: type === "edit" ? "patch" : "post",
-        url:
-          process.env.REACT_APP_API_SERVER +
-          `/api/${type === "edit" ? "edit" : "comment"}`,
+        url: API_URL + `/api/${type === "edit" ? "edit" : "comment"}`,
         data: {
           authKey: auth.authKey,
           url,

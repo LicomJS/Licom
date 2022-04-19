@@ -22,11 +22,16 @@ const RegisterMenu = ({ t }) => {
   const client = new ClientJS();
   const fingerprint = client.getFingerprint();
 
+  const API_URL =
+    process.env.NODE_ENV === "development"
+      ? process.env.REACT_APP_API_LOCAL_SERVER
+      : process.env.REACT_APP_API_SERVER;
+
   const checkApiLogin = (login) => {
     setLoading(true);
     axios({
       method: "post",
-      url: process.env.REACT_APP_API_SERVER + "/api/checklogin",
+      url: API_URL + "/api/checklogin",
       data: {
         login,
         hash: fingerprint,
@@ -50,7 +55,7 @@ const RegisterMenu = ({ t }) => {
     signMessage(login, key.privateKey).then((signature) => {
       axios({
         method: "post",
-        url: process.env.REACT_APP_API_SERVER + "/api/register",
+        url: API_URL + "/api/register",
         data: {
           login,
           signature,

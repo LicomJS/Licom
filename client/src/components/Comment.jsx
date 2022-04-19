@@ -22,11 +22,16 @@ const Comment = ({ comment, url, type = "" }) => {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
+  const API_URL =
+    process.env.NODE_ENV === "development"
+      ? process.env.REACT_APP_API_LOCAL_SERVER
+      : process.env.REACT_APP_API_SERVER;
+
   const deleteCommentApi = (comment) => {
     if (window.confirm(t("Do you really want to delete this comment?"))) {
       axios({
         method: "delete",
-        url: process.env.REACT_APP_API_SERVER + "/api/comment",
+        url: API_URL + "/api/comment",
         data: {
           id: comment.id,
           authKey: auth.authKey,
@@ -48,7 +53,7 @@ const Comment = ({ comment, url, type = "" }) => {
   const voteApi = (id, vote) => {
     axios({
       method: "post",
-      url: process.env.REACT_APP_API_SERVER + "/api/vote",
+      url: API_URL + "/api/vote",
       data: {
         authKey: auth.authKey,
         id,
