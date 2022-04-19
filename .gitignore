@@ -28,3 +28,5 @@ yarn-error.log*
 /client/dist
 /server/.env
 /server/prisma/migrations
+
+/server/ADMIN.md
