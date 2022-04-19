@@ -12,7 +12,7 @@ const {
 } = require("./functions");
 
 const cors = corsMiddleware({
-  origins: ["http://localhost:3000", "http://web.myapp.com"],
+  origins: ["*"],
 });
 
 const srv = restify.createServer({
