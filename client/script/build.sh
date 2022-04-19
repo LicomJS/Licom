@@ -3,6 +3,7 @@
 build() {
     echo 'Building Extension in React'
 
+    rm dist.zip
     rm -rf dist/*
 
     export INLINE_RUNTIME_CHUNK=false
@@ -13,7 +14,7 @@ build() {
     mkdir -p dist
     cp -r build/* dist
 
-    # mv dist/index.html dist/popup.html
+    zip -r dist.zip dist/* > /dev/null 2>&1
 }
 
 build

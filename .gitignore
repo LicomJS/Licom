@@ -26,6 +26,7 @@ yarn-error.log*
 
 /client/build
 /client/dist
+/client/dist.zip
 /server/.env
 /server/prisma/migrations
 
