@@ -3,18 +3,33 @@
 build() {
     echo 'Building Extension in React'
 
-    rm dist.zip
-    rm -rf dist/*
+    rm dist_chrome.zip
+    rm dist_firefox.zip
+    rm -r dist/
+    rm -r dist_firefox/
+    rm -r public/
 
     export INLINE_RUNTIME_CHUNK=false
     export GENERATE_SOURCEMAP=false
 
+    # chrome
+    cp -a public_chrome/ public/
     react-scripts build
 
-    mkdir -p dist
-    cp -r build/* dist
+    mkdir dist/
+    cp -r build/* dist/
+    zip -r dist_chrome.zip dist/* > /dev/null 2>&1
 
-    zip -r dist.zip dist/* > /dev/null 2>&1
+    # firefox
+    mkdir dist_firefox/
+    cp -a dist/{static,asset-manifest.json} dist_firefox/
+    cp public_firefox/* dist_firefox/ 
+    rm dist_firefox/index.html
+    cp dist/index.html dist_firefox/
+
+    cd dist_firefox; zip -r ../dist_firefox.zip ./* ; cd -
+    # zip -r dist_firefox.zip dist_firefox/* > /dev/null 2>&1
+
 }
 
 build

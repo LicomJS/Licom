@@ -1,0 +1,24 @@
+{
+  "short_name": "Licom",
+  "name": "Licom",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "description": "Licom",
+  "permissions": ["activeTab"],
+  "icons": {
+    "512": "licom.png"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "browser_action": {
+    "default_title": "Licom"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*/*", "http://*/*"],
+      "js": ["side-panel.js"]
+    }
+  ],
+  "web_accessible_resources": ["index.html"]
+}
