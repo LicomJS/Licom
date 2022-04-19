@@ -25,8 +25,9 @@ yarn-error.log*
 /TODO.md
 
 /client/build
-/client/dist
-/client/dist.zip
+/client/public
+/client/dist*
+/client/dist*.zip
 /server/.env
 /server/prisma/migrations
 
