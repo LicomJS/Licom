@@ -10,7 +10,7 @@ Available in light, dark mode and 5 languages :)
 
 From:
 
-[![Firefox Store](firefox.png)](https://addons.mozilla.org/addon/licom/) [![Chrome Web Store](chrome2.png)](https://addons.mozilla.org/addon/licom/) |
+[![Firefox Store](firefox.png)](https://addons.mozilla.org/addon/licom/) [![Chrome Web Store](chrome2.png)](https://chrome.google.com/webstore/detail/licom/kmjfgkpnlhgpfgacgmadpllppmcfbiok) |
 
 Or:
 
