@@ -6,7 +6,7 @@
   "description": "Licom",
   "permissions": ["activeTab"],
   "icons": {
-    "512": "licom.png"
+    "512": "logo.png"
   },
   "background": {
     "scripts": ["background.js"]

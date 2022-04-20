@@ -18,7 +18,7 @@ build() {
 
     mkdir dist/
     cp -r build/* dist/
-    zip -r dist_chrome.zip dist/* > /dev/null 2>&1
+    cd dist; zip -r ../dist_chrome.zip ./* ; cd -
 
     # firefox
     mkdir dist_firefox/
@@ -28,7 +28,6 @@ build() {
     cp dist/index.html dist_firefox/
 
     cd dist_firefox; zip -r ../dist_firefox.zip ./* ; cd -
-    # zip -r dist_firefox.zip dist_firefox/* > /dev/null 2>&1
 
 }
 
