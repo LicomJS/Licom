@@ -15,18 +15,15 @@ jobs:
         with:
           node-version: 12.x
 
-      - name: Go to client directory
-        run: cd client
-
       - name: Install dependencies
-        run: npm install
+        run: cd client/ ; npm install
 
       - name: Generate build
-        run: npm run build
+        run: cd client/ ; npm run build
 
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "dist_*.zip"
+          artifacts: "cd client/ ; dist_*.zip"
           # bodyFile: "release.md"
           token: ${{ secrets.GITHUB_TOKEN }}
