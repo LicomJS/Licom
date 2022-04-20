@@ -33,7 +33,7 @@ $ mv dotenv .env
 $ vim .env
 
 # I use postgres, but you can easily use sqlite or mysql thanks to prisma.
-`
+
 $ docker-compose up
 $ yarn dev # to start server with nodemon
 $ yarn start
