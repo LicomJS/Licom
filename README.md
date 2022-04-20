@@ -33,15 +33,12 @@ $ mv dotenv .env
 $ vim .env
 
 # I use postgres, but you can easily use sqlite or mysql thanks to prisma.
-# because it is the fastest and has a convenient client for macos `postico`.
-
-$ cd server/
+`
 $ docker-compose up
 $ yarn dev # to start server with nodemon
 $ yarn start
 
 ### to start deploy server, fly.io start my server with the Dockerfile, also check the Dockerfile.
-### somehow there is no magic when starting the server :)
 ```
 
 ## Contributing
