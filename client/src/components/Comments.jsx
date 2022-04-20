@@ -68,7 +68,7 @@ const Comments = ({ url }) => {
           <span className="w-full inline-flex dark:bg-gray-700 bg-gray-100 text-gray-700 dark:text-white rounded-full h-6 px-3">
             <strong>{t("Page")}:</strong>
             <span title={url} className="ml-2">
-              {url.slice(0, 35)}
+              {url.slice(0, 25)}
             </span>
           </span>
 
