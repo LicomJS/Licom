@@ -1,0 +1,32 @@
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v2
+
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Go to client directory
+        run: cd client
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate build
+        run: npm run build
+
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "dist_*.zip"
+          # bodyFile: "release.md"
+          token: ${{ secrets.GITHUB_TOKEN }}
