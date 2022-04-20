@@ -15,3 +15,7 @@ Currently there are versions for Chrome and Firefox, if you use Opera, the plugi
 - To install on Chrome/Opera, go to the add-ons screen `chrome://extensions/` and simply drag the add-on you downloaded into the window.
 
 - To install on Firefox, open a window `about:debugging#/runtime/this-firefox` and click on temporarily load an add-on and select the downloaded add-on.
+
+## Contributing
+
+If you want to help develop Licom, feel free to add a new PR! I'm happy for any help!
