@@ -8,9 +8,9 @@ Available in light, dark mode and 5 languages :)
 
 ## Install release
 
-[Firefox Store](https://addons.mozilla.org/addon/licom/)
+From [Firefox Store](https://addons.mozilla.org/addon/licom/) or:
 
-Go to the [releases](https://github.com/skorotkiewicz/Licom/releases) page and download the plugin for your browser.
+go to the [releases](https://github.com/skorotkiewicz/Licom/releases) page and download the plugin for your browser.
 
 Currently there are versions for Chrome and Firefox, if you use Opera, the plugin for Chrome will also work on your Opera browser.
 
