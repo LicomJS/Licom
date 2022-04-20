@@ -22,9 +22,8 @@ jobs:
         run: cd client/ ; npm run build
 
       - name: Create release
-        run: cd client/
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "dist_*.zip"
+          artifacts: "client/dist_*.zip"
           # bodyFile: "release.md"
           token: ${{ secrets.GITHUB_TOKEN }}
