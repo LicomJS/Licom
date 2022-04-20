@@ -18,7 +18,7 @@ build() {
 
     mkdir dist/
     cp -r build/* dist/
-    cd dist; zip -r ../dist_chrome.zip ./* ; cd -
+    cd dist; zip -r ../release_chrome.zip ./* ; cd -
 
     # firefox
     mkdir dist_firefox/
@@ -27,7 +27,7 @@ build() {
     rm dist_firefox/index.html
     cp dist/index.html dist_firefox/
 
-    cd dist_firefox; zip -r ../dist_firefox.zip ./* ; cd -
+    cd dist_firefox; zip -r ../release_firefox.zip ./* ; cd -
 
 }
 

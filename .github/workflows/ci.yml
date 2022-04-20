@@ -24,6 +24,6 @@ jobs:
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "client/dist_*.zip"
+          artifacts: "client/release_*.zip"
           # bodyFile: "release.md"
           token: ${{ secrets.GITHUB_TOKEN }}
