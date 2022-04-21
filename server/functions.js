@@ -3,6 +3,9 @@ const { nanoid } = require("nanoid");
 const { prisma } = require("./datebase");
 const { VotesHandler } = require("./votes");
 
+/**
+ * Delete Comment Handler
+ */
 const deleteComment = async (req, res, next) => {
   let isOwn;
   try {
@@ -47,6 +50,9 @@ const deleteComment = async (req, res, next) => {
   return next(); // never
 };
 
+/**
+ * Check Login Handler
+ */
 const checkLogin = async (req, res, next) => {
   let login = req.body.login.trim();
   let fp = String(req.body.hash);
@@ -100,6 +106,9 @@ const checkLogin = async (req, res, next) => {
   return next();
 };
 
+/**
+ * Login User Handler
+ */
 const loginUser = async (req, res, next) => {
   verifyMessage(req.body.sign, req.body.signature, req.body.publicKey).then(
     async (verify) => {
@@ -131,6 +140,9 @@ const loginUser = async (req, res, next) => {
   );
 };
 
+/**
+ * Register User Handler
+ */
 const registerUser = async (req, res, next) => {
   let login = req.body.login.trim();
 
@@ -202,6 +214,9 @@ const registerUser = async (req, res, next) => {
   );
 };
 
+/**
+ * Post Comment Handler
+ */
 const postComments = async (req, res, next, type = "") => {
   const commentMsg = req.body.comment.trim();
 
@@ -313,6 +328,9 @@ const postComments = async (req, res, next, type = "") => {
   );
 };
 
+/**
+ * Get Comments Handler
+ */
 const getComments = async (req, res, next) => {
   const user = await prisma.user.findFirst({
     where: {
@@ -382,6 +400,9 @@ const getComments = async (req, res, next) => {
   return next();
 };
 
+/**
+ * Vote Comment Handler
+ */
 // eslint-disable-next-line no-unused-vars
 const voteComment = async (req, res, next) => {
   let authKey = req.body.authKey;
