@@ -10,7 +10,13 @@ Available in light, dark mode and 5 languages :)
 
 From:
 
-[![Firefox Store](firefox.png)](https://addons.mozilla.org/addon/licom/) [![Chrome Web Store](chrome.png)](https://chrome.google.com/webstore/detail/licom/kmjfgkpnlhgpfgacgmadpllppmcfbiok)
+<div style="display: flex; align-items: center;">
+
+[![Firefox Store](firefox.png)](https://addons.mozilla.org/addon/licom/)
+
+[![Chrome Web Store](chrome.png)](https://chrome.google.com/webstore/detail/licom/kmjfgkpnlhgpfgacgmadpllppmcfbiok)
+
+</div>
 
 Or:
 
