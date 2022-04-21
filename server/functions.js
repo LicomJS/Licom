@@ -354,6 +354,14 @@ const getComments = async (req, res, next) => {
           Children: true,
         },
       },
+      votes: {
+        where: {
+          userLogin: user.login,
+        },
+        select: {
+          voteType: true,
+        },
+      },
     },
     orderBy: {
       // id: "asc",
@@ -402,6 +410,7 @@ const voteComment = async (req, res, next) => {
 
   const vreturn = await VotesHandler(user.login, commentId, vote);
   vreturn.votes.success = true;
+  vreturn.votes.voteType = vreturn.voteType;
 
   return res.send(vreturn.votes);
 };

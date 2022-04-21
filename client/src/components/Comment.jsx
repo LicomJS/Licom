@@ -90,7 +90,13 @@ const Comment = ({ comment, url, type = "" }) => {
               voteApi(comment.id, 1);
             }}
           >
-            +
+            {comment.votes &&
+            comment.votes[0] &&
+            comment.votes[0].voteType === 1 ? (
+              <span style={{ color: "orange" }}>+</span>
+            ) : (
+              <span>+</span>
+            )}
           </button>
           <span
             title={`${t("Votes up")}: ${comment.votesUp} / ${t(
@@ -104,7 +110,13 @@ const Comment = ({ comment, url, type = "" }) => {
               voteApi(comment.id, 0);
             }}
           >
-            -
+            {comment.votes &&
+            comment.votes[0] &&
+            comment.votes[0].voteType === 0 ? (
+              <span style={{ color: "orange" }}>-</span>
+            ) : (
+              <span>-</span>
+            )}
           </button>
         </div>
       </div>

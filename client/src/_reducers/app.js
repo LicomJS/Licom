@@ -91,6 +91,7 @@ export const comments = (state = [], action) => {
               ...x,
               votesUp: action.payload.votesUp,
               votesDown: action.payload.votesDown,
+              votes: [{ voteType: action.payload.voteType }],
             }
           : x
       );
@@ -106,6 +107,7 @@ export const comments = (state = [], action) => {
             ...subComment,
             votesUp: action.payload.votesUp,
             votesDown: action.payload.votesDown,
+            votes: [{ voteType: action.payload.voteType }],
           };
         });
 
