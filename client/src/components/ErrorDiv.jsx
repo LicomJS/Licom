@@ -48,6 +48,9 @@ const ErrorDiv = ({ error }) => {
     case "E-14":
       error = t("Unknow vote option.");
       break;
+    case "E-15":
+      error = t("Can't vote on your own comments.");
+      break;
 
     default:
       break;

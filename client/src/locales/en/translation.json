@@ -56,5 +56,6 @@
   "Cannot vote on dead comments.": "Cannot vote on dead comments.",
   "Please log in to vote.": "Please log in to vote.",
   "Already voted on this comment.": "Already voted on this comment.",
-  "Unknow vote option.": "Unknow vote option."
+  "Unknow vote option.": "Unknow vote option.",
+  "Can't vote on your own comments.": "Can't vote on your own comments."
 }

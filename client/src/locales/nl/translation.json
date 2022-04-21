@@ -56,5 +56,6 @@
   "Cannot vote on dead comments.": "Kan niet stemmen op dode commentaren.",
   "Please log in to vote.": "Log alsjeblieft in om te stemmen.",
   "Already voted on this comment.": "Reeds gestemd op deze reactie.",
-  "Unknow vote option.": "Onbekende stemoptie."
+  "Unknow vote option.": "Onbekende stemoptie.",
+  "Can't vote on your own comments.": "Je kunt niet stemmen op je eigen commentaar"
 }

@@ -56,5 +56,6 @@
   "Cannot vote on dead comments.": "Bei toten Kommentaren kann nicht abgestimmt werden.",
   "Please log in to vote.": "Bitte logge dich ein, um abzustimmen.",
   "Already voted on this comment.": "Über diesen Kommentar wurde bereits abgestimmt.",
-  "Unknow vote option.": "Unbekannte Abstimmungsoption."
+  "Unknow vote option.": "Unbekannte Abstimmungsoption.",
+  "Can't vote on your own comments.": "Du kannst nicht über deine eigenen Kommentare abstimmen."
 }

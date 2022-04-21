@@ -56,5 +56,6 @@
   "Cannot vote on dead comments.": "Impossible de voter sur les commentaires morts.",
   "Please log in to vote.": "Veuillez vous connecter pour voter.",
   "Already voted on this comment.": "Tu as déjà voté sur ce commentaire.",
-  "Unknow vote option.": "Je ne connais pas l'option de vote."
+  "Unknow vote option.": "Je ne connais pas l'option de vote.",
+  "Can't vote on your own comments.": "Tu ne peux pas voter sur tes propres commentaires."
 }

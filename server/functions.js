@@ -390,6 +390,11 @@ const voteComment = async (req, res, next) => {
     where: { authKey },
   });
 
+  if (comment.userLogin === user.login) {
+    // Can't vote on your own comments.
+    return res.send({ error: "E-15" });
+  }
+
   if (!user) {
     // Please log in to vote.
     return res.send({ error: "E-12" });

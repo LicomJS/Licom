@@ -56,5 +56,6 @@
   "Cannot vote on dead comments.": "Nie można głosować na martwe komentarze.",
   "Please log in to vote.": "Proszę się zalogować, aby zagłosować.",
   "Already voted on this comment.": "Już głosowałeś na ten komentarz.",
-  "Unknow vote option.": "Nieznana opcja głosowania."
+  "Unknow vote option.": "Nieznana opcja głosowania.",
+  "Can't vote on your own comments.": "Nie można głosować na własne komentarze."
 }
