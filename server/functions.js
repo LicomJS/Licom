@@ -314,20 +314,27 @@ const postComments = async (req, res, next, type = "") => {
 };
 
 const getComments = async (req, res, next) => {
-  const user = await prisma.user.count({
+  const user = await prisma.user.findFirst({
     where: {
       authKey: req.body.authKey,
     },
   });
 
-  if (user === 0) {
+  if (!user.login) {
     // Please log in to see comments.
     return res.send({ error: "E-10" });
   }
 
+  let url = req.body.url;
+  if (url.includes("http://") || url.includes("https://")) {
+    url = url.match(/https?:\/\/(.*)/)[1];
+  }
+
   const page = await prisma.webpage.findFirst({
     where: {
-      url: req.body.url,
+      url: {
+        search: `${url}`,
+      },
     },
     select: {
       count: true,
@@ -342,12 +349,11 @@ const getComments = async (req, res, next) => {
     take: itemsPerPage,
 
     where: {
-      webpageUrl: req.body.url,
+      webpageUrl: {
+        search: `${url}`,
+      },
       parent_id: null,
     },
-    // include: {
-    //   Children: true,
-    // },
     include: {
       Children: {
         include: {
@@ -364,7 +370,6 @@ const getComments = async (req, res, next) => {
       },
     },
     orderBy: {
-      // id: "asc",
       id: "desc",
     },
   });
