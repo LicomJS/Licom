@@ -28,7 +28,7 @@ Currently there are versions for Chrome and Firefox, if you use Opera, the plugi
 
 ```
 $ cd server
-# yarn install
+$ yarn install
 $ mv dotenv .env
 $ vim .env
 
@@ -37,8 +37,6 @@ $ vim .env
 $ docker-compose up
 $ yarn dev # to start server with nodemon
 $ yarn start
-
-### to start deploy server, fly.io start my server with the Dockerfile, also check the Dockerfile.
 ```
 
 ## Contributing
