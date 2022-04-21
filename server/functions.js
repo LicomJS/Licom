@@ -1,6 +1,7 @@
 const { verifyMessage } = require("ed25519-keys");
 const { nanoid } = require("nanoid");
 const { prisma } = require("./datebase");
+const { VotesHandler } = require("./votes");
 
 const deleteComment = async (req, res, next) => {
   let isOwn;
@@ -373,7 +374,6 @@ const voteComment = async (req, res, next) => {
   let authKey = req.body.authKey;
   let commentId = req.body.id;
   let vote = req.body.vote;
-  let vreturn;
 
   const comment = await prisma.comment.findFirst({
     where: {
@@ -390,83 +390,20 @@ const voteComment = async (req, res, next) => {
     where: { authKey },
   });
 
-  if (comment.userLogin === user.login) {
-    // Can't vote on your own comments.
-    return res.send({ error: "E-15" });
-  }
-
   if (!user) {
     // Please log in to vote.
     return res.send({ error: "E-12" });
   }
 
-  const hasVoted = await prisma.vote.count({
-    where: {
-      userLogin: user.login,
-      commentId,
-    },
-  });
-
-  if (hasVoted !== 0) {
-    // Already voted on this comment.
-    return res.send({ error: "E-13" });
+  if (comment.userLogin === user.login) {
+    // Can't vote on your own comments.
+    return res.send({ error: "E-15" });
   }
 
-  switch (vote) {
-    case 0:
-      vreturn = await prisma.comment.update({
-        where: {
-          id: commentId,
-        },
-        data: {
-          votesDown: {
-            increment: 1,
-          },
-        },
-        select: {
-          id: true,
-          votesUp: true,
-          votesDown: true,
-          parent_id: true,
-        },
-      });
+  const vreturn = await VotesHandler(user.login, commentId, vote);
+  vreturn.votes.success = true;
 
-      break;
-    case 1:
-      vreturn = await prisma.comment.update({
-        where: {
-          id: commentId,
-        },
-        data: {
-          votesUp: {
-            increment: 1,
-          },
-        },
-        select: {
-          id: true,
-          votesUp: true,
-          votesDown: true,
-          parent_id: true,
-        },
-      });
-      break;
-
-    default:
-      // Unknow vote option.
-      res.send({ error: "E-14" });
-      break;
-  }
-
-  await prisma.vote.create({
-    data: {
-      userLogin: user.login,
-      commentId,
-    },
-  });
-
-  vreturn.success = true;
-
-  return res.send(vreturn);
+  return res.send(vreturn.votes);
 };
 
 module.exports = {

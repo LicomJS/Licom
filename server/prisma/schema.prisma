@@ -56,7 +56,8 @@ model Fingerprint {
 }
 
 model Vote {
-  id Int @id @default(autoincrement())
+  id       Int  @id @default(autoincrement())
+  voteType Int?
 
   User      User?    @relation(fields: [userLogin], references: [login])
   userLogin String?
