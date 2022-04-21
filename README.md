@@ -12,9 +12,7 @@ From:
 
 <div style="display: flex; align-items: center;">
 
-[![Firefox Store](firefox.png)](https://addons.mozilla.org/addon/licom/)
-
-[![Chrome Web Store](chrome.png)](https://chrome.google.com/webstore/detail/licom/kmjfgkpnlhgpfgacgmadpllppmcfbiok)
+[![Firefox Store](firefox.png)](https://addons.mozilla.org/addon/licom/) [![Chrome Web Store](chrome.png)](https://chrome.google.com/webstore/detail/licom/kmjfgkpnlhgpfgacgmadpllppmcfbiok)
 
 </div>
 
