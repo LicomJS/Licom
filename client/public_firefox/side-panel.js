@@ -1,12 +1,4 @@
 // eslint-disable-next-line no-unused-vars
-// chrome.runtime.onMessage.addListener((msg, sender) => {
-//   // console.log("message received");
-//   if (msg.action == "toggle") {
-//     let url = msg.url;
-//     toggle(url);
-//   }
-// });
-
 browser.runtime.onMessage.addListener((msg) => {
   if (msg.action == "toggle") {
     let url = msg.url;
