@@ -376,7 +376,14 @@ const getComments = async (req, res, next) => {
       Children: {
         include: {
           Children: true,
-          votes: true,
+          votes: {
+            where: {
+              userLogin: user.login,
+            },
+            select: {
+              voteType: true,
+            },
+          },
         },
       },
       votes: {
