@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+.comment a {
+  text-decoration: underline;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

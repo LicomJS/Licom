@@ -6,6 +6,7 @@ import axios from "axios";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import { Ellipsis, EllipsisMode } from "react-simple-ellipsis";
+import Linkify from "react-linkify";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -131,7 +132,7 @@ const Comment = ({ comment, url, type = "" }) => {
         <span title={comment.time} className="ml-1 text-xs dark:text-gray-600">
           {moment(comment.time).fromNow()}
         </span>
-        <p className="text-sm">
+        <p className="text-sm comment">
           {comment.deleted === 1 ? (
             <em>{t("Comment deleted by author")}</em>
           ) : (
@@ -141,7 +142,7 @@ const Comment = ({ comment, url, type = "" }) => {
                   ellipsis="..."
                   label={t("Show more")}
                   id={comment.id}
-                  text={comment.comment}
+                  text={<Linkify>{comment.comment}</Linkify>}
                   limit={200}
                   mode={EllipsisMode.InPlace}
                   class="pl-2 underline font-size-lg cursor-pointer"
