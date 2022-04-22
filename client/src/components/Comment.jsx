@@ -92,7 +92,8 @@ const Comment = ({ comment, url, type = "" }) => {
             }}
           >
             {(comment.votes && comment?.votes[0]?.voteType === 1) ||
-            (comment.Children.votes &&
+            (comment.Children &&
+              comment.Children.votes &&
               comment?.Children?.votes[0]?.voteType === 1) ? (
               <span style={{ color: "orange" }}>+</span>
             ) : (
@@ -112,7 +113,8 @@ const Comment = ({ comment, url, type = "" }) => {
             }}
           >
             {(comment.votes && comment?.votes[0]?.voteType === 0) ||
-            (comment.Children.votes &&
+            (comment.Children &&
+              comment.Children.votes &&
               comment?.Children?.votes[0]?.voteType === 0) ? (
               <span style={{ color: "orange" }}>-</span>
             ) : (

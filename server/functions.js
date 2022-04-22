@@ -351,7 +351,7 @@ const getComments = async (req, res, next) => {
   const page = await prisma.webpage.findFirst({
     where: {
       url: {
-        search: `${url}`,
+        endsWith: url,
       },
     },
     select: {
@@ -368,7 +368,7 @@ const getComments = async (req, res, next) => {
 
     where: {
       webpageUrl: {
-        search: `${url}`,
+        endsWith: url,
       },
       parent_id: null,
     },
@@ -465,7 +465,7 @@ const getCount = async (req, res, next) => {
     const count = await prisma.webpage.findFirst({
       where: {
         url: {
-          search: `${url}`,
+          endsWith: url,
         },
       },
       select: {
