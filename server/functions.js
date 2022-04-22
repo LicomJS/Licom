@@ -449,6 +449,36 @@ const voteComment = async (req, res, next) => {
   return res.send(vreturn.votes);
 };
 
+/**
+ * Get Comments Counter Handler
+ */
+// eslint-disable-next-line no-unused-vars
+const getCount = async (req, res, next) => {
+  let urlPlain = JSON.parse(req.body);
+  let url = urlPlain.url;
+
+  try {
+    if (url.includes("http://") || url.includes("https://")) {
+      url = url.match(/https?:\/\/(.*)/)[1];
+    }
+
+    const count = await prisma.webpage.findFirst({
+      where: {
+        url: {
+          search: `${url}`,
+        },
+      },
+      select: {
+        count: true,
+      },
+    });
+
+    res.send(count === null ? 0 : count);
+  } catch (error) {}
+
+  return next();
+};
+
 module.exports = {
   getComments,
   postComments,
@@ -457,4 +487,5 @@ module.exports = {
   loginUser,
   registerUser,
   voteComment,
+  getCount,
 };

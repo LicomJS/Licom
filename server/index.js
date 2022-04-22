@@ -9,6 +9,7 @@ const {
   loginUser,
   registerUser,
   voteComment,
+  getCount,
 } = require("./functions");
 
 const cors = corsMiddleware({
@@ -64,6 +65,10 @@ srv.patch("/api/edit", async (req, res, next) => {
 
 srv.post("/api/vote", async (req, res, next) => {
   voteComment(req, res, next);
+});
+
+srv.post("/api/count", async (req, res, next) => {
+  getCount(req, res, next);
 });
 
 srv.listen(5000, function () {
