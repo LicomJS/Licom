@@ -3,8 +3,8 @@
 build() {
     echo 'Building Extension in React'
 
-    rm dist_chrome.zip
-    rm dist_firefox.zip
+    rm release_chrome.zip
+    rm release_firefox.zip
     rm -r dist/
     rm -r dist_firefox/
     rm -r public/
