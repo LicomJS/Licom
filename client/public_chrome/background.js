@@ -20,7 +20,7 @@ function getTabInfo() {
       lastUrl = url;
       fetch("https://licom.fly.dev/api/count", {
         method: "POST",
-        mode: "no-cors",
+        mode: "cors",
         body: JSON.stringify({ url }),
       })
         .then((r) => r.json())
