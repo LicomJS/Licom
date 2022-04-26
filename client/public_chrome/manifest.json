@@ -1,7 +1,7 @@
 {
   "short_name": "Licom",
   "name": "Licom",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "manifest_version": 3,
   "description": "Licom",
   "permissions": ["activeTab", "tabs"],
