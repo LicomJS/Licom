@@ -1,5 +1,6 @@
 const { verifyMessage } = require("ed25519-keys");
 const { nanoid } = require("nanoid");
+const { CheckComment } = require("./checkSpam");
 const { prisma } = require("./datebase");
 const { VotesHandler } = require("./votes");
 
@@ -271,6 +272,9 @@ const postComments = async (req, res, next, type = "") => {
         if (user.login) {
           const url = req.body.url.trim();
 
+          const spam = await CheckComment(req, user.login);
+          if (spam) return res.send({ error: "Spam!" });
+
           if (type !== "edit") {
             await prisma.webpage.upsert({
               where: {
@@ -338,7 +342,7 @@ const getComments = async (req, res, next) => {
     },
   });
 
-  if (!user.login) {
+  if (!user || !user.login) {
     // Please log in to see comments.
     return res.send({ error: "E-10" });
   }
