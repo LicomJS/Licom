@@ -85,8 +85,8 @@ const Comment = ({ comment, url, type = "" }) => {
         lineBreak: "anywhere",
       }}
     >
-      <div className="flex-shrink-0 mr-3">
-        <div className="flex flex-col items-center justify-between mt-1 rounded-full w-8 h-8 dark:text-gray-500">
+      <div className="flex-shrink-0 mr-2">
+        <div className="flex flex-col items-center justify-between w-8 h-8 dark:text-gray-500">
           <button
             onClick={() => {
               voteApi(comment.id, 1);
