@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Comments from "./components/Comments";
 import LoginMenu from "./components/LoginMenu";
 import RegisterMenu from "./components/RegisterMenu";
 import { useTranslation } from "react-i18next";
-
-import { useSelector, useDispatch } from "react-redux";
-import { deleteAuth } from "./_actions";
 import i18next from "i18next";
 import moment from "moment";
+
+import { useSelector, useDispatch } from "react-redux";
+import { getAuth, deleteAuth } from "./_redux/auth";
 
 const App = () => {
   const { t } = useTranslation();
@@ -18,6 +18,10 @@ const App = () => {
 
   const query = new URLSearchParams(window.location.search);
   const url = query.get("url");
+
+  useEffect(() => {
+    dispatch(getAuth());
+  }, []);
 
   return (
     <div>

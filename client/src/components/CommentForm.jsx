@@ -7,13 +7,13 @@ import { useTranslation } from "react-i18next";
 import CloseBtn from "./CloseBtn";
 
 import { useSelector, useDispatch } from "react-redux";
+import { addCount } from "./../_redux/count";
 import {
   addComment,
   addSubComment,
-  addCount,
   editComment,
   editSubComment,
-} from "./../_actions";
+} from "./../_redux/comments";
 
 const CommentForm = ({ setOpenForm, url, parent_id, comment, type = "" }) => {
   const [commentLength, setCommentLength] = useState(0);

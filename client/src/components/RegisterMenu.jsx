@@ -6,7 +6,7 @@ import { ClientJS } from "clientjs";
 import ErrorDiv from "./ErrorDiv";
 
 import { useDispatch } from "react-redux";
-import { setAuth } from "./../_actions";
+import { setAuth } from "./../_redux/auth";
 
 // eslint-disable-next-line react/prop-types
 const RegisterMenu = ({ t }) => {

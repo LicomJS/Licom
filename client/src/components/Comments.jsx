@@ -7,7 +7,8 @@ import { useTranslation } from "react-i18next";
 import ErrorDiv from "./ErrorDiv";
 
 import { useSelector, useDispatch } from "react-redux";
-import { setComments, setCount, loadOlderComments } from "./../_actions";
+import { setCount } from "./../_redux/count";
+import { setComments, loadOlderComments } from "./../_redux/comments";
 
 // eslint-disable-next-line react/prop-types
 const Comments = ({ url }) => {

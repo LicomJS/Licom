@@ -14,7 +14,7 @@ import {
   voteComment,
   voteSubComment,
   deleteSubComment,
-} from "./../_actions";
+} from "./../_redux/comments";
 
 const Comment = ({ comment, url, type = "" }) => {
   const [error, setError] = useState("");
