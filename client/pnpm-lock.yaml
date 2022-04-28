@@ -16,6 +16,7 @@ specifiers:
   moment: ^2.29.3
   postcss: ^8.4.12
   react: ^18.1.0
+  react-byte-avatar: ^1.0.0
   react-dom: ^18.1.0
   react-i18next: ^11.16.7
   react-linkify: ^1.0.0-alpha
@@ -37,6 +38,7 @@ dependencies:
   i18next-browser-languagedetector: 6.1.4
   moment: 2.29.3
   react: 18.1.0
+  react-byte-avatar: 1.0.0_react@18.1.0
   react-dom: 18.1.0_react@18.1.0
   react-i18next: 11.16.7_47hlnquejirkg3ammbyc66ijei
   react-linkify: 1.0.0-alpha
@@ -7796,6 +7798,14 @@ packages:
       raf: 3.4.1
       regenerator-runtime: 0.13.9
       whatwg-fetch: 3.6.2
+    dev: false
+
+  /react-byte-avatar/1.0.0_react@18.1.0:
+    resolution: {integrity: sha512-TtVBIUunwS8bdQP66hePfiI9jkp51y0qn5gFSJLzzFSjjA+XPCQWxBTCaKaNWE6yVQsZ0mhQ8GG0Bw3X5vExSQ==}
+    peerDependencies:
+      react: ^18.0.0
+    dependencies:
+      react: 18.1.0
     dev: false
 
   /react-dev-utils/12.0.1_7obbsy7bvh46ulalj3j352unry:

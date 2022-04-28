@@ -68,12 +68,12 @@ const Comments = ({ url }) => {
         <div className="bg-white dark:bg-gray-600 w-full text-teal text-sm rounded-lg shadow-md px-4 py-2 m-3 border-1 border-gray-400">
           <span className="w-full inline-flex dark:bg-gray-700 bg-gray-100 text-gray-700 dark:text-white rounded-full h-6 px-3">
             <strong>{t("Page")}:</strong>
-            <span title={url} className="ml-2">
-              {url.slice(0, 25)}
+            <span title={url} className="ml-2 overflow-x-auto">
+              {url}
             </span>
           </span>
 
-          <div className="dark:text-gray-300 flex p-2 px-2 text-gray-700">
+          <div className="dark:text-gray-300 flex p-2 px-2 text-gray-700 float-right">
             {count} {count > 1 ? t("comments") : t("comment")}
           </div>
         </div>

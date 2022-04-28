@@ -7,6 +7,7 @@ import moment from "moment";
 import { useTranslation } from "react-i18next";
 import { Ellipsis, EllipsisMode } from "react-simple-ellipsis";
 import Linkify from "react-linkify";
+import { Avatar } from "react-byte-avatar";
 
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -130,10 +131,18 @@ const Comment = ({ comment, url, type = "" }) => {
             : "dark:bg-gray-400 bg-white border"
         }`}
       >
-        <strong>{comment.userLogin}</strong>
-        <span title={comment.time} className="ml-1 text-xs dark:text-gray-600">
-          {moment(comment.time).fromNow()}
-        </span>
+        <div className="flex items-center">
+          <Avatar name={comment.userLogin} />
+
+          <strong>{comment.userLogin}</strong>
+          <span
+            title={comment.time}
+            className="ml-1 text-xs dark:text-gray-600"
+          >
+            {moment(comment.time).fromNow()}
+          </span>
+        </div>
+
         <p className="text-sm comment">
           {comment.deleted === 1 ? (
             <em>{t("Comment deleted by author")}</em>
