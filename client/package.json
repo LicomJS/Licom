@@ -26,6 +26,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "./script/build.sh",
+    "clean": "./script/clean.sh",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
