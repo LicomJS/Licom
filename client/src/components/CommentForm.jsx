@@ -67,11 +67,11 @@ const CommentForm = ({ setOpenForm, url, parent_id, comment, type = "" }) => {
 
         if (res.data.error) {
           setError(res.data.error);
+        } else {
+          msgRef.current.value = "";
+          setCommentLength(0);
+          setOpenForm && setOpenForm(0);
         }
-
-        msgRef.current.value = "";
-        setCommentLength(0);
-        setOpenForm && setOpenForm(0);
       });
     });
   };
