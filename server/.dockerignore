@@ -1,2 +1,4 @@
 node_modules/
 *.md
+pnpm-lock.yaml
+docker-compose.yml
