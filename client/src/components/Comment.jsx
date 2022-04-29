@@ -6,7 +6,7 @@ import axios from "axios";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
 import { Ellipsis, EllipsisMode } from "react-simple-ellipsis";
-import Linkify from "react-linkify";
+// import Linkify from "react-linkify";
 import { Avatar } from "react-byte-avatar";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -153,7 +153,7 @@ const Comment = ({ comment, url, type = "" }) => {
                   ellipsis="..."
                   label={t("Show more")}
                   id={comment.id}
-                  text={<Linkify>{comment.comment}</Linkify>}
+                  text={comment.comment}
                   limit={200}
                   mode={EllipsisMode.InPlace}
                   class="pl-2 underline font-size-lg cursor-pointer"
