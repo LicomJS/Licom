@@ -333,6 +333,45 @@ const postComments = async (req, res, next, type = "") => {
 };
 
 /**
+ * Get subpages from current url
+ */
+const getSubpages = async (req, res, next) => {
+  const user = await prisma.user.findFirst({
+    where: {
+      authKey: req.body.authKey,
+    },
+  });
+
+  if (!user || !user.login) {
+    // Please log in to see comments.
+    return res.send({ error: "E-10" });
+  }
+
+  let url = req.body.url;
+  if (url.includes("http://") || url.includes("https://")) {
+    const { hostname } = new URL(url);
+
+    const pages = await prisma.webpage.findMany({
+      where: {
+        url: {
+          contains: "://" + hostname,
+        },
+      },
+      select: {
+        count: true,
+        url: true,
+      },
+    });
+
+    res.send({
+      meta: pages,
+    });
+  }
+
+  return next();
+};
+
+/**
  * Get Comments Handler
  */
 const getComments = async (req, res, next) => {
@@ -492,4 +531,5 @@ module.exports = {
   registerUser,
   voteComment,
   getCount,
+  getSubpages,
 };

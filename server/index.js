@@ -10,6 +10,7 @@ const {
   registerUser,
   voteComment,
   getCount,
+  getSubpages,
 } = require("./functions");
 
 const cors = corsMiddleware({
@@ -18,7 +19,7 @@ const cors = corsMiddleware({
 
 const srv = restify.createServer({
   name: "Licom",
-  version: "1.0.0",
+  version: "1.1.0",
 });
 
 srv.pre(cors.preflight);
@@ -27,10 +28,6 @@ srv.use(restify.plugins.acceptParser(srv.acceptable));
 srv.use(restify.plugins.queryParser());
 srv.use(restify.plugins.bodyParser());
 
-srv.post("/api/checklogin", async (req, res, next) => {
-  checkLogin(req, res, next);
-});
-
 srv.get(
   "/*",
   restify.plugins.serveStatic({
@@ -38,6 +35,10 @@ srv.get(
     default: "index.html",
   })
 );
+
+srv.post("/api/checklogin", async (req, res, next) => {
+  checkLogin(req, res, next);
+});
 
 srv.post("/api/register", (req, res, next) => {
   registerUser(req, res, next);
@@ -69,6 +70,10 @@ srv.post("/api/vote", async (req, res, next) => {
 
 srv.post("/api/count", async (req, res, next) => {
   getCount(req, res, next);
+});
+
+srv.post("/api/getsubpages", async (req, res, next) => {
+  getSubpages(req, res, next);
 });
 
 srv.listen(5000, function () {
