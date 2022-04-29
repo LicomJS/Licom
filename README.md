@@ -1,10 +1,26 @@
 # Licom - comments on `every` webpage
 
+![](https://shields.io/github/v/release/skorotkiewicz/Licom?display_name=tag&sort=semver)
+![](https://shields.io/github/license/skorotkiewicz/Licom)
+
 Licom is a simple plugin for your browser that adds the feature to leave comments on every page, even if it doesn't have that option itself.
 
 Read others comments, vote and reply to them.
 
 Available in light, dark mode and 5 languages :)
+
+## Get from Store
+
+<div style="display: flex; align-items: center;">
+
+<a href="https://addons.mozilla.org/addon/licom/">
+    <img src="firefox.png" alt="Firefox Store" />
+</a>
+<a href="https://chrome.google.com/webstore/detail/licom/kmjfgkpnlhgpfgacgmadpllppmcfbiok">
+    <img src="chrome.png" alt="Chrome Web Store" />
+</a>
+
+</div>
 
 ## Features
 
@@ -20,17 +36,7 @@ Available in light, dark mode and 5 languages :)
 - Unique user Avatars.
 - Spam dedection.
 
-## Install release
-
-From:
-
-<div style="display: flex; align-items: center;">
-
-[![Firefox Store](firefox.png)](https://addons.mozilla.org/addon/licom/) [![Chrome Web Store](chrome.png)](https://chrome.google.com/webstore/detail/licom/kmjfgkpnlhgpfgacgmadpllppmcfbiok)
-
-</div>
-
-Or:
+## Install development release
 
 Go to the [releases](https://github.com/skorotkiewicz/Licom/releases) page and download the plugin for your browser.
 
@@ -56,6 +62,14 @@ $ docker-compose up
 $ pnpm dev # to start server with nodemon
 $ pnpm start
 ```
+
+## Users
+
+Chrome  
+![](https://shields.io/chrome-web-store/users/kmjfgkpnlhgpfgacgmadpllppmcfbiok)
+
+Firefox  
+![](https://shields.io/amo/users/licom)
 
 ## Contributing
 
