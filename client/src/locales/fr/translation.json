@@ -42,6 +42,8 @@
   "Save Comment": "Sauvegarder le commentaire",
   "Show more": "Afficher plus",
   "Load older comments": "Charger comm. plus anciens",
+  "No subpages": "Pas de sous-pages",
+  "Show subpages": "Afficher les sous-pages",
 
   "Comment not found.": "Commentaire non trouvé.",
   "Error. Please try again.": "Erreur. Veuillez réessayer.",
@@ -49,7 +51,7 @@
   "Error. You have already one account.": "Erreur. Vous avez déjà un compte.",
   "Login exist, try another one.": "Ce nom existe déja, essayez un autre.",
   "Signature not match, please try again.": "La signature ne correspond pas, veuillez réessayer.",
-  "Website URL to long. Max 2000 characters.":"L'URL du site Web est trop long. Max 2000 caractères",
+  "Website URL to long. Max 2000 characters.": "L'URL du site Web est trop long. Max 2000 caractères",
   "Comment can have min 2 and max 3000 characters.": "Le commentaire peut avoir min 2 et max 3000 caractères.",
   "Please log in to post comment.": "Veuillez vous connecter pour poster un commentaire.",
   "Please log in to see comments.": "Veuillez vous connecter pour voir les commentaires.",

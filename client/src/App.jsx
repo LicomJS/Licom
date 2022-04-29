@@ -8,18 +8,18 @@ import moment from "moment";
 
 import { useSelector, useDispatch } from "react-redux";
 import { getAuth, deleteAuth } from "./_redux/auth";
+import { initUrl } from "./_redux/url";
 
 const App = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
+  const url = useSelector((state) => state.url);
   const [showLanguages, setShowLanguages] = useState(false);
   const [page, setPage] = useState("");
 
-  const query = new URLSearchParams(window.location.search);
-  const url = query.get("url");
-
   useEffect(() => {
+    dispatch(initUrl());
     dispatch(getAuth());
   }, []);
 
@@ -54,7 +54,7 @@ const App = () => {
                       </button>
                     </div>
 
-                    {url && <Comments url={url} />}
+                    {url && <Comments />}
                   </>
                 ) : (
                   <div>

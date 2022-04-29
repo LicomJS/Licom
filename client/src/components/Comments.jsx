@@ -5,25 +5,28 @@ import CommentForm from "./CommentForm";
 import CommentsList from "./CommentsList";
 import { useTranslation } from "react-i18next";
 import ErrorDiv from "./ErrorDiv";
+import Subpages from "./Subpages";
 
 import { useSelector, useDispatch } from "react-redux";
 import { setCount } from "./../_redux/count";
 import { setComments, loadOlderComments } from "./../_redux/comments";
 
 // eslint-disable-next-line react/prop-types
-const Comments = ({ url }) => {
+const Comments = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [loadMore, setLoadMore] = useState(false);
-  const loaded = useRef(false);
+  const [showSubpages, setShowSubpages] = useState(false);
+  const lastUrl = useRef("");
   const { t } = useTranslation();
   const auth = useSelector((state) => state.auth);
   const count = useSelector((state) => state.count);
+  const url = useSelector((state) => state.url);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (loaded.current === false) {
+    if (lastUrl.current !== url) {
       const API_URL =
         process.env.NODE_ENV === "development"
           ? process.env.REACT_APP_API_LOCAL_SERVER
@@ -58,9 +61,9 @@ const Comments = ({ url }) => {
         }
       });
 
-      loaded.current = true;
+      lastUrl.current = url;
     }
-  }, [page]);
+  }, [page, url]);
 
   return (
     <div>
@@ -73,8 +76,21 @@ const Comments = ({ url }) => {
             </span>
           </span>
 
-          <div className="dark:text-gray-300 flex p-2 px-2 text-gray-700 float-right">
-            {count} {count > 1 ? t("comments") : t("comment")}
+          <div className="flex p-2 px-2 justify-between">
+            {showSubpages ? (
+              <Subpages url={url} auth={auth} t={t} />
+            ) : (
+              <span
+                className="cursor-pointer dark:text-gray-300 text-gray-700"
+                onClick={() => setShowSubpages(true)}
+              >
+                {t("Show subpages")}
+              </span>
+            )}
+
+            <span className="dark:text-gray-300 text-gray-700">
+              {count} {count > 1 ? t("comments") : t("comment")}
+            </span>
           </div>
         </div>
 
