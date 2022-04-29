@@ -6,6 +6,20 @@ Read others comments, vote and reply to them.
 
 Available in light, dark mode and 5 languages :)
 
+## Features
+
+- Thumbs up and down as vote.
+- Comment editing.
+- Replying to comments.
+- Shrinking long comments and displaying comment after clicking on show more.
+- Pagination, show older comments.
+- Comment counter in browser extension icon.
+- Revoke the vote of a comment.
+- View sub pages from domain which were commented.
+- Resize the panel width.
+- Unique user Avatars.
+- Spam dedection.
+
 ## Install release
 
 From:
