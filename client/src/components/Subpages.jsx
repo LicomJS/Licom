@@ -60,8 +60,8 @@ const Subpages = ({ url, auth, t }) => {
               >
                 {subpages.map((u, key) => (
                   <option key={key} value={u.url}>
-                    /{u.url.match(/^https?:\/\/[a-zA-Z:.0-9]+\/(.*)$/)[1]} -{" "}
-                    {u.count} {u.count > 1 ? t("comments") : t("comment")}
+                    {u.url.replace(/^https?:\/\/[^/]+\//i, "/")} - {u.count}{" "}
+                    {u.count > 1 ? t("comments") : t("comment")}
                   </option>
                 ))}
               </select>
